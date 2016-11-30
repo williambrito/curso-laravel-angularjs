@@ -15,6 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('client', function (){
-    return \CodeProject\Client::All();
-});
+Route::get('client', 'ClientController@index');
