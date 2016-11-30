@@ -39,7 +39,11 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return Client::find($id);
+        $client = Client::find($id);
+        if (!$client){
+            return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
+        }
+        return $client;
     }
 
     /**
@@ -51,7 +55,13 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $client = Client::find($id);
+        if (!$client){
+            return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
+        }
+        $client->fill($request->all());
+        $client->save();
+        return Client::find($id);
     }
 
     /**
@@ -62,6 +72,11 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        Client::find($id)->delete();
+        $client = Client::find($id);
+        if (!$client){
+            return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
+        }
+        $client->delete();
+        return response()->json([],202);
     }
 }
