@@ -2,25 +2,34 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Entities\Client;
 use CodeProject\Repositories\ClientRepository;
-use CodeProject\Repositories\ClientRepositoryEloquent;
 use Illuminate\Http\Request;
-
-use CodeProject\Http\Requests;
-use CodeProject\Http\Controllers\Controller;
 
 class ClientController extends Controller
 {
     /**
+     * @var ClientRepository
+     */
+    private $repository;
+
+    /**
+     * ClientController constructor.
+     * @param ClientRepository $repository
+     */
+    public function __construct(ClientRepository $repository)
+    {
+
+        $this->repository = $repository;
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @param ClientRepositoryEloquent $repository
      * @return \Illuminate\Http\Response
      */
-    public function index(ClientRepository $repository)
+    public function index()
     {
-        return $repository->all();
+        return $this->repository->all();
     }
 
     /**
@@ -31,7 +40,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        return Client::create($request->all());
+        return $this->repository->create($request->all());
     }
 
     /**
@@ -42,7 +51,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client = Client::find($id);
+        $client = $this->repository->find($id);
         if (!$client){
             return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
         }
@@ -58,13 +67,13 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $client = Client::find($id);
+        $client = $this->repository->find($id);
         if (!$client){
             return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
         }
         $client->fill($request->all());
         $client->save();
-        return Client::find($id);
+        return $this->repository->find($id);
     }
 
     /**
@@ -75,7 +84,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $client = Client::find($id);
+        $client = $this->repository->find($id);
         if (!$client){
             return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
         }
