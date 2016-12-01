@@ -222,7 +222,7 @@ return [
         'basePath'      => app_path(),
         'rootNamespace' => 'CodeProject\\',
         'paths'         => [
-            'models'       => 'Models',
+            'models'       => 'Entities',
             'repositories' => 'Repositories',
             'interfaces'   => 'Repositories',
             'transformers' => 'Transformers',
