@@ -5,8 +5,6 @@ namespace CodeProject\Http\Controllers;
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 class ProjectFileController extends Controller
@@ -52,7 +50,11 @@ class ProjectFileController extends Controller
         $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();
 
-        Storage::put($request->name . "." . $extension, File::get($file));
+        $data['file'] = $file;
+        $data['extension'] = $extension;
+        $data['name'] = $request->name;
+
+        $this->service->createFile($data);
     }
 
     /**

@@ -13,6 +13,9 @@ use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+
 class ProjectService
 {
     /**
@@ -61,5 +64,10 @@ class ProjectService
                 'message' => $e->getMessageBag()
             ];
         }
+    }
+
+    public function createFile(array $data)
+    {
+        Storage::put($data['name'] . "." . $data['extension'], File::get($data['file']));
     }
 }
