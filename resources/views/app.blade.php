@@ -10,7 +10,7 @@
 		<link href="{{ asset('build/css/vendor/bootstrap.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/bootstrap-theme.min.css') }}" rel="stylesheet">
 	@else
-		<link href="{{ elixir('css/all.css') }}">
+		<link href="{{ elixir('css/all.css') }}" rel="stylesheet">
 	@endif
 
 	<!-- Fonts -->
