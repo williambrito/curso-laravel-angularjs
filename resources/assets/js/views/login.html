@@ -4,6 +4,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
+                    <div class="alert alert-danger" ng-show="error.erro">
+                        <strong>Ops!</strong> Ocorreram erros.<br><br>
+                        <div>{{ error.message }}</div>
+                    </div>
+
                     <form class="form-horizontal" name="form" role="form" ng-submit="login()">
                         <div class="form-group" ng-class="{'has-error': !form.username.$valid && form.username.$touched}">
                             <label class="col-md-4 control-label">E-Mail Address</label>

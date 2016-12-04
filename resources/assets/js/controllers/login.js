@@ -7,12 +7,18 @@ angular.module('app.controllers')
                     password: ''
                 };
 
+                $scope.error = {
+                    erro: false,
+                    message: ''
+                };
+
                 $scope.login = function () {
                     if ($scope.form.$valid) {
                         OAuth.getAccessToken($scope.user).then(function () {
-                            $location.url('home');
-                        }, function () {
-                            alert('Acesso negado');
+                            $location.path('home');
+                        }, function (data) {
+                            $scope.error.erro = true;
+                            $scope.error.message = data.data.error_description;
                         });
                     }
                 };
