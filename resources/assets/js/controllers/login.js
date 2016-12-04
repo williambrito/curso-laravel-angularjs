@@ -8,10 +8,12 @@ angular.module('app.controllers')
                 };
 
                 $scope.login = function () {
-                    OAuth.getAccessToken($scope.user).then(function () {
-                        $location.url('home');
-                    }, function () {
-                        alert('Acesso negado');
-                    });
+                    if ($scope.form.$valid) {
+                        OAuth.getAccessToken($scope.user).then(function () {
+                            $location.url('home');
+                        }, function () {
+                            alert('Acesso negado');
+                        });
+                    }
                 };
             }]);
