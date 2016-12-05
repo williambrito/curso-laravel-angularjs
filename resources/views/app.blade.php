@@ -82,6 +82,7 @@
 		<script src="{{ asset('build/js/controllers/login.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/home.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/client/index.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/client/create.js') }}"></script>
 
 		<script src="{{ asset('build/js/services/client.js') }}"></script>
 	@else
