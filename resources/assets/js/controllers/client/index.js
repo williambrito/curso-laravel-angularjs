@@ -1,4 +1,4 @@
 angular.module('app.controllers')
-    .controller('clientIndexController', ['$scope', function ($scope) {
-        $scope.clients = [];
+    .controller('clientIndexController', ['$scope', 'clientService', function ($scope, clientService) {
+        $scope.clients = clientService.query();
     }]);
