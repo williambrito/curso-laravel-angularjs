@@ -1,6 +1,7 @@
 var app = angular.module('app', [
     'ngRoute',
     'angular-oauth2',
+    'ngMessages',
     'app.controllers',
     'app.services'
 ]);

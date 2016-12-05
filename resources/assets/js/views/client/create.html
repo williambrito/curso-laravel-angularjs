@@ -16,7 +16,7 @@
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" ng-model="client.name" required>
-                                <div ng-messages="form.name.$error" class="help-block" ng-show="form.name.$touched && !form.name.$valid">
+                                <div ng-messages="form.name.$error" class="help-block" ng-show="form.name.$touched">
                                     <div ng-message="required">Informe o name do client.</div>
                                 </div>
                             </div>
@@ -26,7 +26,7 @@
                             <label class="col-md-4 control-label">Responsible</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="responsible" ng-model="client.responsible" required>
-                                <div ng-messages="form.responsible.$error" class="help-block" ng-show="form.responsible.$touched && !form.responsible.$valid">
+                                <div ng-messages="form.responsible.$error" class="help-block" ng-show="form.responsible.$touched">
                                     <div ng-message="required">Informe o responsible pelo client.</div>
                                 </div>
                             </div>
@@ -36,8 +36,9 @@
                             <label class="col-md-4 control-label">E-mail</label>
                             <div class="col-md-6">
                                 <input type="email" class="form-control" name="email" ng-model="client.email" required>
-                                <div ng-messages="form.email.$error" class="help-block" ng-show="form.email.$touched && !form.email.$valid">
+                                <div ng-messages="form.email.$error" class="help-block" ng-show="form.email.$touched">
                                     <div ng-message="required">Informe o e-mail do client.</div>
+                                    <div ng-message="email">Informe um e-mail valido.</div>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +47,7 @@
                             <label class="col-md-4 control-label">Phone</label>
                             <div class="col-md-6">
                                 <input type="tel" class="form-control" name="phone" ng-model="client.phone" required>
-                                <div ng-messages="form.phone.$error" class="help-block" ng-show="form.phone.$touched && !form.phone.$valid">
+                                <div ng-messages="form.phone.$error" class="help-block" ng-show="form.phone.$touched">
                                     <div ng-message="required">Informe o phone do client.</div>
                                 </div>
                             </div>
@@ -56,7 +57,7 @@
                             <label class="col-md-4 control-label">Address</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="address" ng-model="client.address" required>
-                                <div ng-messages="form.address.$error" class="help-block" ng-show="form.address.$touched && !form.address.$valid">
+                                <div ng-messages="form.address.$error" class="help-block" ng-show="form.address.$touched">
                                     <div ng-message="required">Informe o address do client.</div>
                                 </div>
                             </div>

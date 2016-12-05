@@ -4,10 +4,12 @@ angular.module('app.controllers')
             $scope.client = new clientService();
 
             $scope.save = function () {
-                $scope.client.$save().then(function () {
-                    $location.path('clients');
-                }, function () {
+                if ($scope.form.$valid) {
+                    $scope.client.$save().then(function () {
+                        $location.path('clients');
+                    }, function () {
 
-                });
+                    });
+                }
             };
         }]);
