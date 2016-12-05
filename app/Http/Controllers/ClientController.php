@@ -4,6 +4,7 @@ namespace CodeProject\Http\Controllers;
 
 use CodeProject\Repositories\ClientRepository;
 use CodeProject\Services\ClientService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -42,7 +43,7 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -53,14 +54,14 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $client = $this->repository->find($id);
-        if (!$client){
-            return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
+        if (!$client) {
+            return response()->json(['erro' => 'Ops. Cliente inexistente!'], 404);
         }
         return $client;
     }
@@ -68,28 +69,33 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $this->service->update($request->all(),$id);
+        $this->service->update($request->all(), $id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $client = $this->repository->find($id);
-        if (!$client){
-            return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
+        try {
+            $client = $this->repository->find($id);
+            try {
+                $client->delete();
+                return response()->json(null, 202);
+            } catch (\PDOException $e) {
+                return response()->json(['erro' => 'Cliente possui dependências no sistema!'], 404);
+            }
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['erro' => 'Cliente inexistente!'], 404);
         }
-        $client->delete();
-        return response()->json([],202);
     }
 }

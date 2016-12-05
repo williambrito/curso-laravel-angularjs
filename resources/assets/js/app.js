@@ -44,6 +44,10 @@ app.config(['$routeProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigP
             .when('/clients/:id/edit', {
                 templateUrl: 'build/views/client/edit.html',
                 controller: 'clientEditController'
+            })
+            .when('/clients/:id/delete', {
+                templateUrl: 'build/views/client/delete.html',
+                controller: 'clientDeleteController'
             });
 
         OAuthProvider.configure({
