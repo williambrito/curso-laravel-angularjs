@@ -81,6 +81,7 @@
 		<script src="{{ asset('build/js/app.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/login.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/home.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/client/index.js') }}"></script>
 	@else
 		<script src="{{ elixir('js/all.js') }}"></script>
 	@endif
