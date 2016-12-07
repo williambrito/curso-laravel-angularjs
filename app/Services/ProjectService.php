@@ -8,44 +8,45 @@
 
 namespace CodeProject\Services;
 
-use CodeProject\Repositories\ClientRepository;
-use CodeProject\Validators\ClientValidator;
+use CodeProject\Repositories\ProjectRepository;
+use CodeProject\Validators\ProjectValidator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class ClientService
+class ProjectService
 {
     /**
-     * @var ClientRepository
+     * @var ProjectRepository
      */
     private $repository;
     /**
-     * @var ClientValidator
+     * @var ProjectValidator
      */
     private $validator;
 
     /**
-     * ClientService constructor.
-     * @param ClientRepository $repository
-     * @param ClientValidator $validator
+     * ProjectService constructor.
+     * @param ProjectRepository $repository
+     * @param ProjectValidator $validator
      */
-    public function __construct(ClientRepository $repository, ClientValidator $validator)
+    public function __construct(ProjectRepository $repository, ProjectValidator $validator)
     {
+
         $this->repository = $repository;
         $this->validator = $validator;
     }
 
     public function getAll()
     {
-        return $this->repository->paginate();
+        return $this->repository->with(['owner', 'client'])->paginate();
     }
 
     public function getById($id)
     {
         try {
-            return $this->repository->find($id);
+            return $this->repository->with(['owner', 'client'])->find($id);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Cliente inexistente!'], 404);
+            return response()->json(['error' => 'Projeto inexistente!'], 404);
         }
     }
 
@@ -91,10 +92,10 @@ class ClientService
                 }
                 return response()->json([], 202);
             } catch (\PDOException $pe) {
-                return response()->json(['error' => 'Cliente possui dependências!'], 404);
+                return response()->json(['error' => 'Projeto possui dependências!'], 404);
             }
         } catch (ModelNotFoundException $me) {
-            return response()->json(['error' => 'Cliente inexistente!'], 404);
+            return response()->json(['error' => 'Projeto inexistente!'], 404);
         }
     }
 }
