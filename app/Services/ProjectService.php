@@ -98,4 +98,47 @@ class ProjectService
             return response()->json(['error' => 'Projeto inexistente!'], 404);
         }
     }
+
+    public function addMember($id, $memberId)
+    {
+        $project = $this->getById($id);
+
+        if (!json_decode($project)) {
+            return $project;
+        }
+
+        if ($this->isMember($id, $memberId)) {
+            return response()->json(['error' => 'Usuário já é membro do projeto!'], 404);
+        }
+
+        $project->members()->attach($memberId);
+        return response()->json(['message' => 'Usuário adicionado com sucesso.']);
+    }
+
+    public function removeMember($id, $memberId)
+    {
+        $project = $this->getById($id);
+
+        if (!json_decode($project)) {
+            return $project;
+        }
+
+        if (!$this->isMember($id, $memberId)) {
+            return response()->json(['error' => 'Usuário não é membro do projeto!'], 404);
+        }
+
+        $project->members()->detach($memberId);
+        return response()->json(['message' => 'Usuário removido com sucesso.']);
+    }
+
+    public function isMember($id, $memberid)
+    {
+        $project = $this->getById($id);
+        foreach ($project->members as $member) {
+            if ($member->user_id = $memberid) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

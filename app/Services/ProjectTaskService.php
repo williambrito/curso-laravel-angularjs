@@ -2,34 +2,34 @@
 /**
  * Created by PhpStorm.
  * User: Brito
- * Date: 01/12/2016
- * Time: 15:50
+ * Date: 10/12/2016
+ * Time: 12:20
  */
 
 namespace CodeProject\Services;
 
 
-use CodeProject\Repositories\ProjectNoteRepository;
-use CodeProject\Validators\ProjectNoteValidator;
+use CodeProject\Repositories\ProjectTaskRepository;
+use CodeProject\Validators\ProjectTaskValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class ProjectNoteService
+class ProjectTaskService
 {
     /**
-     * @var ProjectNoteRepository
+     * @var ProjectTaskRepository
      */
     private $repository;
     /**
-     * @var ProjectNoteValidator
+     * @var ProjectTaskValidator
      */
     private $validator;
 
     /**
-     * ProjectNoteService constructor.
-     * @param ProjectNoteRepository $repository
-     * @param ProjectNoteValidator $validator
+     * ProjectTaskService constructor.
+     * @param ProjectTaskRepository $repository
+     * @param ProjectTaskValidator $validator
      */
-    public function __construct(ProjectNoteRepository $repository, ProjectNoteValidator $validator)
+    public function __construct(ProjectTaskRepository $repository, ProjectTaskValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -40,12 +40,12 @@ class ProjectNoteService
         return $this->repository->findWhere(['project_id' => $projectId]);
     }
 
-    public function getById($id, $noteId)
+    public function getById($id, $taskId)
     {
-        $note = $this->repository->findWhere(['project_id' => $id, 'id' => $noteId]);
+        $note = $this->repository->findWhere(['project_id' => $id, 'id' => $taskId]);
 
         if (count($note) === 0) {
-            return response()->json(['error' => 'Nota inexistente!'], 404);
+            return response()->json(['error' => 'Task inexistente!'], 404);
         }
         return $note;
     }
@@ -63,9 +63,9 @@ class ProjectNoteService
         }
     }
 
-    public function update(array $data, $id, $noteId)
+    public function update(array $data, $id, $taskId)
     {
-        $result = $this->getById($id, $noteId);
+        $result = $this->getById($id, $taskId);
 
         if (!json_decode($result)) {
             return $result;
@@ -73,7 +73,7 @@ class ProjectNoteService
 
         try {
             $this->validator->with($data)->passesOrFail();
-            return $this->repository->update($data, $noteId);
+            return $this->repository->update($data, $taskId);
         } catch (ValidatorException $e) {
             return [
                 'error' => true,
@@ -82,20 +82,20 @@ class ProjectNoteService
         }
     }
 
-    public function destroy($id, $noteId)
+    public function destroy($id, $taskId)
     {
-        $result = $this->getById($id, $noteId);
+        $result = $this->getById($id, $taskId);
 
         if (!json_decode($result)) {
             return $result;
         }
 
         try {
-            $this->repository->delete($noteId);
+            $this->repository->delete($taskId);
             return response()->json([], 202);
 
         } catch (\PDOException $pe) {
-            return response()->json(['error' => 'Nota possui dependências!'], 404);
+            return response()->json(['error' => 'Task possui dependências!'], 404);
         }
     }
 }

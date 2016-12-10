@@ -75,4 +75,15 @@ class ProjectController extends Controller
     {
         return $this->service->destroy($id);
     }
+
+    public function members($id)
+    {
+        $result = $this->service->getById($id);
+
+        if (!json_decode($result)) {
+            return $result;
+        }
+
+        return $result->members;
+    }
 }
