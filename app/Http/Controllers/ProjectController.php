@@ -2,16 +2,11 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    /**
-     * @var ProjectRepository
-     */
-    private $repository;
     /**
      * @var ProjectService
      */
@@ -19,12 +14,10 @@ class ProjectController extends Controller
 
     /**
      * ProjectController constructor.
-     * @param ProjectRepository $repository
      * @param ProjectService $service
      */
-    public function __construct(ProjectRepository $repository, ProjectService $service)
+    public function __construct(ProjectService $service)
     {
-        $this->repository = $repository;
         $this->service = $service;
     }
 
@@ -35,13 +28,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return $this->repository->all();
+        return $this->service->getAll();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -52,34 +45,34 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return $this->repository->find($id);
+        return $this->service->getById($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        return $this->service->update($request->all(),$id);
+        return $this->service->update($request->all(), $id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $this->repository->delete($id);
+        return $this->service->destroy($id);
     }
 }

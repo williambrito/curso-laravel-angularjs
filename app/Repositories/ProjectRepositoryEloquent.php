@@ -1,19 +1,20 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Brito
+ * Date: 01/12/2016
+ * Time: 14:07
+ */
 
 namespace CodeProject\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
-use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Entities\Project;
-use CodeProject\Validators\ProjectValidator;
 
-/**
- * Class ProjectRepositoryEloquent
- * @package namespace CodeProject\Repositories;
- */
+use CodeProject\Entities\Project;
+use Prettus\Repository\Eloquent\BaseRepository;
+
 class ProjectRepositoryEloquent extends BaseRepository implements ProjectRepository
 {
+
     /**
      * Specify Model class name
      *
@@ -22,15 +23,5 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
     public function model()
     {
         return Project::class;
-    }
-
-    
-
-    /**
-     * Boot up the repository, pushing criteria
-     */
-    public function boot()
-    {
-        $this->pushCriteria(app(RequestCriteria::class));
     }
 }

@@ -2,30 +2,23 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ClientRepository;
 use CodeProject\Services\ClientService;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
     /**
-     * @var ClientRepository
-     */
-    private $repository;
-    /**
      * @var ClientService
      */
     private $service;
 
+
     /**
      * ClientController constructor.
-     * @param ClientRepository $repository
      * @param ClientService $service
      */
-    public function __construct(ClientRepository $repository, ClientService $service)
+    public function __construct(ClientService $service)
     {
-
-        $this->repository = $repository;
         $this->service = $service;
     }
 
@@ -36,13 +29,13 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return $this->repository->all();
+        return $this->service->getAll();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -53,43 +46,34 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $client = $this->repository->find($id);
-        if (!$client){
-            return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
-        }
-        return $client;
+        return $this->service->getById($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $this->service->update($request->all(),$id);
+        return $this->service->update($request->all(), $id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $client = $this->repository->find($id);
-        if (!$client){
-            return response()->json(['erro'=>'Ops. Cliente inexistente!'],404);
-        }
-        $client->delete();
-        return response()->json([],202);
+        return $this->service->destroy($id);
     }
 }
