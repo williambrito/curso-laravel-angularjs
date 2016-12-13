@@ -67,7 +67,7 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
                 templateUrl: 'build/views/project-note/index.html',
                 controller: 'projectNoteIndexController'
             })
-            .when('/project/:id/note/:idNote', {
+            .when('/project/:id/note/:idNote/show', {
                 templateUrl: 'build/views/project-note/show.html',
                 controller: 'projectNoteShowController'
             })

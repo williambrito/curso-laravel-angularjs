@@ -6,7 +6,7 @@ angular.module('app.controllers')
             $scope.save = function () {
                 if ($scope.form.$valid) {
                     clientService.update({id: $scope.client.id}, $scope.client, function () {
-                        $location.path('clients');
+                        $location.path('/clients');
                     }, function () {
 
                     });

@@ -10,7 +10,7 @@ angular.module('app.controllers')
 
             $scope.delete = function () {
                 $scope.client.$delete().then(function () {
-                    $location.path('clients');
+                    $location.path('/clients');
                 },function (data) {
                     $scope.error.erro = true;
                     $scope.error.message = data.data.erro;
