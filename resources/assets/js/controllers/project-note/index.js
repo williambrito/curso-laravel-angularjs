@@ -2,7 +2,9 @@ angular.module('app.controllers')
     .controller('projectNoteIndexController', [
         '$scope',
         'projectNoteService',
+        '$routeParams',
         function ($scope,
-                  projectNoteService) {
-            $scope.notes = projectNoteService.query();
+                  projectNoteService,
+                  $routeParams) {
+            $scope.notes = projectNoteService.query({id: $routeParams.id});
         }]);

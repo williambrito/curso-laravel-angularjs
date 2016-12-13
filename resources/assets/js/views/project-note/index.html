@@ -2,27 +2,23 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Lista de clientes</div>
+                <div class="panel-heading">Lista de notas do projeto</div>
                 <div class="panel-body">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Responsible</th>
-                                <th>E-mail</th>
-                                <th>Phone</th>
+                                <th>Title</th>
+                                <th>Note</th>
                                 <th>AC</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="client in clients">
-                                <td>{{ client.name }}</td>
-                                <td>{{ client.responsible }}</td>
-                                <td>{{ client.email }}</td>
-                                <td>{{ client.phone }}</td>
+                            <tr ng-repeat="note in notes">
+                                <td>{{ note.title }}</td>
+                                <td>{{ note.note }}</td>
                                 <td>
-                                    <a ng-href="/#/clients/{{ client.id }}/edit">Editar</a> |
-                                    <a ng-href="/#/clients/{{ client.id }}/delete">Excluir</a>
+                                    <a ng-href="#/project/{{ note.project_id }}/note/{{ note.id }}/edit">Editar</a> |
+                                    <a ng-href="#/project/{{ note.project_id }}/note/{{ note.id }}/delete">Excluir</a>
                                 </td>
                             </tr>
                         </tbody>
