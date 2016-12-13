@@ -36,13 +36,13 @@ class ProjectNoteController extends Controller
      */
     public function index($id)
     {
-       return $this->repository->findWhere(['project_id'=>$id]);
+        return $this->repository->findWhere(['project_id' => $id]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -57,9 +57,15 @@ class ProjectNoteController extends Controller
      * @param $noteId
      * @return \Illuminate\Http\Response
      */
-    public function show($id,$noteId)
+    public function show($id, $noteId)
     {
-        return $this->repository->findWhere(['project_id'=>$id, 'id'=>$noteId]);
+        $result = $this->repository->findWhere(['project_id' => $id, 'id' => $noteId]);
+        if (isset($result['data']) && count($result['data']) == 1) {
+            $result = [
+                'data' => $result['data'][0]
+            ];
+        }
+        return $result;
     }
 
     /**
