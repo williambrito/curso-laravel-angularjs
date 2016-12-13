@@ -95,6 +95,7 @@
 		<script src="{{ asset('build/js/controllers/project-note/edit.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-note/delete.js') }}"></script>
 
+		<script src="{{ asset('build/js/services/user.js') }}"></script>
 		<script src="{{ asset('build/js/services/client.js') }}"></script>
 		<script src="{{ asset('build/js/services/project-note.js') }}"></script>
 	@else
