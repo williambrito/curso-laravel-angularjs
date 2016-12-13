@@ -62,6 +62,26 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
             .when('/clients/:id/delete', {
                 templateUrl: 'build/views/client/delete.html',
                 controller: 'clientDeleteController'
+            })
+            .when('/project/:id/notes', {
+                templateUrl: 'build/views/project-note/index.html',
+                controller: 'projectNoteIndexController'
+            })
+            .when('/project/:id/notes/:idNote', {
+                templateUrl: 'build/views/project-note/show.html',
+                controller: 'projectNoteShowController'
+            })
+            .when('/project/:id/notes/create', {
+                templateUrl: 'build/views/project-note/create.html',
+                controller: 'projectNoteCreateController'
+            })
+            .when('/project/:id/notes/:idNote/edit', {
+                templateUrl: 'build/views/project-note/edit.html',
+                controller: 'projectNoteEditController'
+            })
+            .when('/project/:id/notes/:idNote/delete', {
+                templateUrl: 'build/views/project-note/delete.html',
+                controller: 'projectNoteDeleteController'
             });
 
         OAuthProvider.configure({
