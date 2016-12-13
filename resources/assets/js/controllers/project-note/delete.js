@@ -8,7 +8,11 @@ angular.module('app.controllers')
                   projectNoteService,
                   $location,
                   $routeParams) {
-            $scope.note = projectNoteService.get({id: $routeParams.id});
+
+            $scope.note = projectNoteService.get({
+                id: $routeParams.id,
+                idNote: $routeParams.idNote
+            });
 
             $scope.error = {
                 erro: false,
@@ -16,8 +20,11 @@ angular.module('app.controllers')
             };
 
             $scope.delete = function () {
-                $scope.note.$delete().then(function () {
-                    $location.path('note');
+                $scope.note.$delete({
+                    id: $routeParams.id,
+                    idNote: $routeParams.idNote
+                }).then(function () {
+                    $location.path('/project/' + $routeParams.id + '/notes');
                 }, function (data) {
                     $scope.error.erro = true;
                     $scope.error.message = data.data.erro;

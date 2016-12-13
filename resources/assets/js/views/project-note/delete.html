@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Excluindo client</div>
+                <div class="panel-heading">Excluindo noda de projeto</div>
                 <div class="panel-body">
 
                     <div class="alert alert-danger" ng-show="error.erro">
@@ -10,11 +10,10 @@
                         <div>{{ error.message }}</div>
                     </div>
 
-                    <h4>Deseja excluir este client?</h4>
+                    <h4>Deseja excluir esta nota de projeto?</h4>
                     <ul>
-                        <li><strong>Name:</strong> {{client.name}}</li>
-                        <li><strong>E-mail:</strong> {{client.email}}</li>
-                        <li><strong>Phone:</strong> {{client.phone}}</li>
+                        <li><strong>Title:</strong> {{note.title}}</li>
+                        <li><strong>Note:</strong> {{note.note}}</li>
                     </ul>
 
                     <div class="form-group">
