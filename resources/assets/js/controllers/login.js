@@ -1,25 +1,39 @@
 angular.module('app.controllers')
-    .controller('loginController',
-        ['$scope', '$location', 'OAuth',
-            function ($scope, $location, OAuth) {
-                $scope.user = {
-                    username: '',
-                    password: ''
-                };
+    .controller('loginController', [
+        '$scope',
+        '$location',
+        'OAuth',
+        '$cookies',
+        'userService',
+        function ($scope,
+                  $location,
+                  OAuth,
+                  $cookies,
+                  userService) {
 
-                $scope.error = {
-                    erro: false,
-                    message: ''
-                };
+            $scope.user = {
+                username: '',
+                password: ''
+            };
 
-                $scope.login = function () {
-                    if ($scope.form.$valid) {
-                        OAuth.getAccessToken($scope.user).then(function () {
+            $scope.error = {
+                erro: false,
+                message: ''
+            };
+
+            $scope.login = function () {
+                if ($scope.form.$valid) {
+                    OAuth.getAccessToken($scope.user).then(function () {
+                        userService.authenticated({}, {}, function (data) {
+                            $cookies.putObject('user', data);
                             $location.path('home');
-                        }, function (data) {
-                            $scope.error.erro = true;
-                            $scope.error.message = data.data.error_description;
+                        }, function () {
+
                         });
-                    }
-                };
-            }]);
+                    }, function (data) {
+                        $scope.error.erro = true;
+                        $scope.error.message = data.data.error_description;
+                    });
+                }
+            };
+        }]);

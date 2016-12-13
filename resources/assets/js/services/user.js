@@ -1,7 +1,7 @@
 angular.module('app.services')
     .service('userService', ['$resource', function ($resource) {
         return $resource('/user', {}, {
-            get: {
+            authenticated: {
                 url: '/user/authenticated',
                 method: 'GET'
             }

@@ -22,8 +22,17 @@ app.provider('appConfig', function () {
     }
 });
 
-app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
-    function ($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider) {
+app.config([
+    '$routeProvider',
+    '$httpProvider',
+    'OAuthProvider',
+    'OAuthTokenProvider',
+    'appConfigProvider',
+    function ($routeProvider,
+              $httpProvider,
+              OAuthProvider,
+              OAuthTokenProvider,
+              appConfigProvider) {
 
         $httpProvider.defaults.transformResponse = function (data, headers) {
             var headersGetter = headers();
@@ -99,8 +108,13 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
         });
     }]);
 
-app.run(['$rootScope', '$window', 'OAuth',
-    function ($rootScope, $window, OAuth) {
+app.run([
+    '$rootScope',
+    '$window',
+    'OAuth',
+    function ($rootScope,
+              $window,
+              OAuth) {
         $rootScope.$on('oauth:error', function (event, rejection) {
 
             if ('invalid_grant' === rejection.data.error) {
