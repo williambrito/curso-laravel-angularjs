@@ -89,6 +89,7 @@
 		<script src="{{ asset('build/js/controllers/client/edit.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/client/delete.js') }}"></script>
 		<!-- project note -->
+		<script src="{{ asset('build/js/controllers/project-note/show.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-note/index.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-note/create.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-note/edit.js') }}"></script>
