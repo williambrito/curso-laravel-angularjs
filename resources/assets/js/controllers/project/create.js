@@ -1,12 +1,17 @@
 angular.module('app.controllers')
-    .controller('clientCreateController', ['$scope', 'clientService', '$location',
-        function ($scope, clientService, $location) {
-            $scope.client = new clientService();
+    .controller('projectCreateController', [
+        '$scope',
+        'projectService',
+        '$location',
+        function ($scope,
+                  projectService,
+                  $location) {
+            $scope.project = new projectService();
 
             $scope.save = function () {
                 if ($scope.form.$valid) {
-                    $scope.client.$save().then(function () {
-                        $location.path('/clients');
+                    $scope.project.$save().then(function () {
+                        $location.path('/projects');
                     }, function () {
 
                     });
