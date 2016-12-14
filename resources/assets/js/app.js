@@ -3,10 +3,12 @@ var app = angular.module('app', [
     'angular-oauth2',
     'ngMessages',
     'app.controllers',
+    'app.filters',
     'app.services'
 ]);
 
 angular.module('app.controllers', ['angular-oauth2']);
+angular.module('app.filters', []);
 angular.module('app.services', ['ngResource']);
 
 app.provider('appConfig', function () {
