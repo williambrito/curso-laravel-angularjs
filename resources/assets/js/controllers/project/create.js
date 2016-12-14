@@ -4,13 +4,16 @@ angular.module('app.controllers')
         'projectService',
         'clientService',
         '$location',
+        'appConfig',
         function ($scope,
                   projectService,
                   clientService,
-                  $location) {
+                  $location,
+                  appConfig) {
 
             $scope.project = new projectService();
             $scope.clients = clientService.query();
+            $scope.status = appConfig.project.status;
 
             $scope.save = function () {
                 if ($scope.form.$valid) {
