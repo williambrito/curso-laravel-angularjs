@@ -72,6 +72,22 @@ app.config([
                 templateUrl: 'build/views/client/delete.html',
                 controller: 'clientDeleteController'
             })
+            .when('/projects', {
+                templateUrl: 'build/views/project/index.html',
+                controller: 'projectIndexController'
+            })
+            .when('/projects/create', {
+                templateUrl: 'build/views/project/create.html',
+                controller: 'projectCreateController'
+            })
+            .when('/projects/:id/edit', {
+                templateUrl: 'build/views/project/edit.html',
+                controller: 'projectEditController'
+            })
+            .when('/projects/:id/delete', {
+                templateUrl: 'build/views/project/delete.html',
+                controller: 'projectDeleteController'
+            })
             .when('/project/:id/notes', {
                 templateUrl: 'build/views/project-note/index.html',
                 controller: 'projectNoteIndexController'
