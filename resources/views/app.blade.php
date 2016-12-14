@@ -68,6 +68,7 @@
 
 	<!-- Scripts -->
 	@if(Config::get('app.debug'))
+		<!-- vendor -->
 		<script src="{{ asset('build/js/vendor/jquery.min.js') }}"></script>
 		<script src="{{ asset('build/js/vendor/angular.min.js') }}"></script>
 		<script src="{{ asset('build/js/vendor/angular-route.min.js') }}"></script>
@@ -79,7 +80,7 @@
 		<script src="{{ asset('build/js/vendor/angular-cookies.min.js') }}"></script>
 		<script src="{{ asset('build/js/vendor/query-string.js') }}"></script>
 		<script src="{{ asset('build/js/vendor/angular-oauth2.min.js') }}"></script>
-
+		<!-- app -->
 		<script src="{{ asset('build/js/app.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/login.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/home.js') }}"></script>
@@ -88,15 +89,21 @@
 		<script src="{{ asset('build/js/controllers/client/create.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/client/edit.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/client/delete.js') }}"></script>
+		<!-- project -->
+		<script src="{{ asset('build/js/controllers/project/index.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/project/create.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/project/edit.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/project/delete.js') }}"></script>
 		<!-- project note -->
 		<script src="{{ asset('build/js/controllers/project-note/show.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-note/index.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-note/create.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-note/edit.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-note/delete.js') }}"></script>
-
+		<!-- services -->
 		<script src="{{ asset('build/js/services/user.js') }}"></script>
 		<script src="{{ asset('build/js/services/client.js') }}"></script>
+		<script src="{{ asset('build/js/services/project.js') }}"></script>
 		<script src="{{ asset('build/js/services/project-note.js') }}"></script>
 	@else
 		<script src="{{ elixir('js/all.js') }}"></script>

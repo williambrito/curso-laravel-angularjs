@@ -21,6 +21,11 @@ class Project extends Model implements Transformable
         'due_date',
     ];
 
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
     public function notes()
     {
         return $this->hasMany(ProjectNote::class);
@@ -28,7 +33,7 @@ class Project extends Model implements Transformable
 
     public function members()
     {
-        return $this->belongsToMany(User::class,'project_members', 'project_id', 'member_id');
+        return $this->belongsToMany(User::class, 'project_members', 'project_id', 'member_id');
     }
 
     public function files()

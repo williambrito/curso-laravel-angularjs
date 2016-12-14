@@ -13,12 +13,12 @@ use League\Fractal\TransformerAbstract;
 
 class ProjectTransformer extends TransformerAbstract
 {
-    protected $defaultIncludes = ['members'];
+    protected $defaultIncludes = ['client', 'members'];
 
     public function transform(Project $project)
     {
         return [
-            'project_id' => $project->id,
+            'id' => $project->id,
             'owner_id' => $project->owner_id,
             'client_id' => $project->client_id,
             'name' => $project->name,
@@ -27,6 +27,11 @@ class ProjectTransformer extends TransformerAbstract
             'status' => $project->status,
             'due_date' => $project->due_date,
         ];
+    }
+
+    public function includeClient(Project $project)
+    {
+        return $this->item($project->client, new ClientTransformer());
     }
 
     public function includeMembers(Project $project)
