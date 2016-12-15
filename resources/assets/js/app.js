@@ -2,6 +2,7 @@ var app = angular.module('app', [
     'ngRoute',
     'angular-oauth2',
     'ngMessages',
+    'ui.bootstrap.typeahead',
     'app.controllers',
     'app.filters',
     'app.services'
