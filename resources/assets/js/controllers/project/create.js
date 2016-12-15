@@ -13,14 +13,15 @@ angular.module('app.controllers')
                   appConfig,
                   $cookies) {
 
-            $scope.project = new projectService();
+            $scope.projectService = new projectService();
+            $scope.project = {};
             $scope.clients = clientService.query();
             $scope.status = appConfig.project.status;
 
             $scope.save = function () {
                 if ($scope.form.$valid) {
                     $scope.project.owner_id = $cookies.getObject('user').id;
-                    $scope.project.$save().then(function () {
+                    $scope.projectService.$save($scope.project).then(function () {
                         $location.path('/projects');
                     }, function () {
 
