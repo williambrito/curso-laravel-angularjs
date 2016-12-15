@@ -51,7 +51,8 @@
                                        class="form-control"
                                        name="client_id"
                                        ng-model="project.client_id"
-                                       uib-typeahead="client.id as client.name for client in clients | filter:$viewValue | limitTo:5">
+                                       uib-typeahead="client.id as client.name for client in clients | filter:$viewValue | limitTo:5"
+                                       typeahead-input-formatter="formatName($model)">
                                 <!--<select class="form-control"
                                         name="client_id"
                                         ng-model="project.client_id"

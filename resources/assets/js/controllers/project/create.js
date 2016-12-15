@@ -28,4 +28,13 @@ angular.module('app.controllers')
                     });
                 }
             };
+
+            $scope.formatName = function (id) {
+                if (id) {
+                    return $scope.clients.filter(function (client) {
+                        return client.id == id;
+                    })[0].name;
+                }
+                return '';
+            };
         }]);
