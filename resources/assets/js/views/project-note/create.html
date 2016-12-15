@@ -8,29 +8,43 @@
                     <div class="alert alert-danger" ng-show="error.erro">
                         <strong>Ops!</strong> Ocorreram erros.<br><br>
                         <div>{{ error.message }}</div>
-                    </div>-->
-
+                    </div>
+                    -->
                     <form class="form-horizontal" name="form" role="form" ng-submit="save()">
-
-                        <div class="form-group" ng-class="{'has-error': !form.title.$valid && form.title.$touched}">
-                            <label class="col-md-4 control-label">Titulo</label>
+                        <div class="form-group"
+                             ng-class="{'has-error': !form.title.$valid && form.title.$touched}">
+                            <label class="col-md-3 control-label">Titulo</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="title" ng-model="note.title" required>
-                                <div ng-messages="form.title.$error" class="help-block" ng-show="!form.title.$valid && form.title.$touched">
+                                <input type="text"
+                                       class="form-control"
+                                       name="title"
+                                       ng-model="note.title"
+                                       required>
+                                <div ng-messages="form.title.$error"
+                                     class="help-block"
+                                     ng-show="!form.title.$valid && form.title.$touched">
                                     <div ng-message="required">Informe o titulo da nota.</div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Nota</label>
+                        <div class="form-group"
+                             ng-class="{'has-error': !form.note.$valid && form.note.$touched}">
+                            <label class="col-md-3 control-label">Note</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="note" ng-model="note.note">
+                                <textarea class="form-control"
+                                          name="note"
+                                          ng-model="note.note"
+                                          required>
+                                </textarea>
+                                <div ng-messages="form.note.$error"
+                                     class="help-block"
+                                     ng-show="!form.note.$valid && form.note.$touched">
+                                    <div ng-message="required">Nota é obrigatória.</div>
+                                </div>
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-6 col-md-offset-3">
                                 <button type="submit" class="btn btn-primary">Confirmar</button>
                             </div>
                         </div>
