@@ -47,13 +47,19 @@
                              ng-class="{'has-error': !form.client_id.$valid && form.client_id.$touched}">
                             <label class="col-md-3 control-label">Client</label>
                             <div class="col-md-6">
-                                <select class="form-control"
+                                <input type="text"
+                                       class="form-control"
+                                       name="client_id"
+                                       ng-model="project.client_id"
+                                       uib-typeahead="client.id as client.name for client in clients | filter:$viewValue | limitTo:5">
+                                <!--<select class="form-control"
                                         name="client_id"
                                         ng-model="project.client_id"
                                         ng-options="client.id as client.name for client in clients"
                                         required>
-                                    <option value=""><-- Selecione o client --></option>
+                                    <option value=""><-- Selecione o client ></option>
                                 </select>
+                                -->
                                 <div ng-messages="form.client_id.$error"
                                      class="help-block"
                                      ng-show="!form.client_id.$valid && form.client_id.$touched">
