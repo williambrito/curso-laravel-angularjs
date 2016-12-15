@@ -20,6 +20,20 @@ app.provider('appConfig', function () {
                 {value: 2, label: 'Iniciado'},
                 {value: 3, label: 'Concluído'}
             ]
+        },
+        utils: {
+            transformResponse: function (data, headers) {
+                var headersGetter = headers();
+                if (headersGetter['content-type'] == 'application/json' ||
+                    headersGetter['content-type'] == 'text/json') {
+                    var dataJson = JSON.parse(data);
+                    if (dataJson.hasOwnProperty('data')) {
+                        dataJson = dataJson.data;
+                    }
+                    return dataJson;
+                }
+                return data;
+            }
         }
     };
 
@@ -45,18 +59,7 @@ app.config([
 
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-        $httpProvider.defaults.transformResponse = function (data, headers) {
-            var headersGetter = headers();
-            if (headersGetter['content-type'] == 'application/json' ||
-                headersGetter['content-type'] == 'text/json') {
-                var dataJson = JSON.parse(data);
-                if (dataJson.hasOwnProperty('data')) {
-                    dataJson = dataJson.data;
-                }
-                return dataJson;
-            }
-            return data;
-        };
+        $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
 
         $routeProvider
             .when('/login', {
