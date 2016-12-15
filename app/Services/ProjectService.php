@@ -69,7 +69,7 @@ class ProjectService
     {
         try{
             $this->validator->with($data)->passesOrFail();
-            return $this->repository->update($data,$id);
+            return $this->repository->skipPresenter(false)->update($data,$id);
         }catch (ValidatorException $e){
             return [
                 'error' => true,

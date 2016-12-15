@@ -9,16 +9,18 @@ angular.module('app.services')
                   $httpParamSerializer,
                   appConfig) {
 
+            function transformDate(data) {
+                if (angular.isObject(data) && data.hasOwnProperty('due_date')) {
+                    data.due_date = $filter('date')(data.due_date, 'yyyy-MM-dd');
+                    return $httpParamSerializer(data);
+                }
+                return data;
+            };
+
             return $resource('/project/:id', {id: '@id'}, {
                 save: {
                     method: 'POST',
-                    transformRequest: function (data) {
-                        if (angular.isObject(data) && data.hasOwnProperty('due_date')) {
-                            data.due_date = $filter('date')(data.due_date, 'yyyy-MM-dd');
-                            return $httpParamSerializer(data);
-                        }
-                        return data;
-                    }
+                    transformRequest: transformDate
                 },
                 get: {
                     method: 'GET',
@@ -32,7 +34,8 @@ angular.module('app.services')
                     }
                 },
                 update: {
-                    method: 'PUT'
+                    method: 'PUT',
+                    transformRequest: transformDate
                 }
             });
         }]);
