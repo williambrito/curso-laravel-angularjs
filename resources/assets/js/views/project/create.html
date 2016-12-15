@@ -19,8 +19,7 @@
                                        class="form-control"
                                        name="name"
                                        ng-model="project.name"
-                                       required
-                                       autofocus>
+                                       required>
                                 <div ng-messages="form.name.$error"
                                      class="help-block"
                                      ng-show="!form.name.$valid && form.name.$touched">
@@ -66,16 +65,19 @@
                              ng-class="{'has-error': !form.progress.$valid && form.progress.$touched}">
                             <label class="col-md-3 control-label">Progress</label>
                             <div class="col-md-6">
-                                <input type="text"
+                                <input type="number"
                                        class="form-control"
                                        name="progress"
                                        ng-model="project.progress"
-                                       required
-                                       autofocus>
+                                       min="0"
+                                       max="100"
+                                       required>
                                 <div ng-messages="form.progress.$error"
                                      class="help-block"
                                      ng-show="!form.progress.$valid && form.progress.$touched">
                                     <div ng-message="required">Informe o progress do project.</div>
+                                    <div ng-message="min">O progress de ser maior ou igual a 0.</div>
+                                    <div ng-message="max">O progress de ser menor ou igual a 100.</div>
                                 </div>
                             </div>
                         </div>
