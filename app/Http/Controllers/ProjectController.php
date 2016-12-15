@@ -61,7 +61,7 @@ class ProjectController extends Controller
         if ($this->checkProjectPermissions($id) == false){
             return ['error' => 'Access forbidden'];
         }
-        return $this->repository->find($id);
+        return $this->repository->skipPresenter(false)->find($id);
     }
 
     /**

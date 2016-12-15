@@ -3,9 +3,11 @@ angular.module('app.services')
         '$resource',
         '$filter',
         '$httpParamSerializer',
+        'appConfig',
         function ($resource,
                   $filter,
-                  $httpParamSerializer) {
+                  $httpParamSerializer,
+                  appConfig) {
 
             return $resource('/project/:id', {id: '@id'}, {
                 save: {
@@ -16,6 +18,17 @@ angular.module('app.services')
                             return $httpParamSerializer(data);
                         }
                         return data;
+                    }
+                },
+                get: {
+                    method: 'GET',
+                    transformResponse: function (data, headers) {
+                        var response = appConfig.utils.transformResponse(data, headers);
+                        if (angular.isObject(response) && response.hasOwnProperty('due_date')) {
+                            var arrayDate = response.due_date.split('-');
+                            response.due_date = new Date(arrayDate[0], (arrayDate[1] - 1), arrayDate[2]);
+                        }
+                        return response;
                     }
                 },
                 update: {
