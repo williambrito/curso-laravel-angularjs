@@ -19,7 +19,7 @@ angular.module('app.controllers')
 
             $scope.save = function () {
                 if ($scope.form.$valid) {
-                    projectService.update({id: $scope.project.id}, angular.copy($scope.project), function () {
+                    projectService.update({id: $scope.project.id}, $scope.project, function () {
                         $location.path('/projects');
                     }, function () {
 

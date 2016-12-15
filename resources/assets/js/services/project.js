@@ -11,8 +11,9 @@ angular.module('app.services')
 
             function transformDate(data) {
                 if (angular.isObject(data) && data.hasOwnProperty('due_date')) {
-                    data.due_date = $filter('date')(data.due_date, 'yyyy-MM-dd');
-                    return $httpParamSerializer(data);
+                    var request = angular.copy(data);
+                    request.due_date = $filter('date')(request.due_date, 'yyyy-MM-dd');
+                    return $httpParamSerializer(request);
                 }
                 return data;
             };

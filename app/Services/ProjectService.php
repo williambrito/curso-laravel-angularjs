@@ -56,7 +56,7 @@ class ProjectService
     {
         try{
             $this->validator->with($data)->passesOrFail();
-            return $this->repository->create($data);
+            return $this->repository->skipPresenter(false)->create($data);
         }catch (ValidatorException $e){
             return [
                 'error' => true,
