@@ -17,8 +17,17 @@ angular.module('app.controllers')
                 $scope.project = data;
                 $scope.clientSelected = data.client.data;
             });
-
             $scope.status = appConfig.project.status;
+
+            $scope.due_date = {
+                status: {
+                    opened: false
+                }
+            };
+
+            $scope.open = function () {
+                $scope.due_date.status.opened = true;
+            };
 
             $scope.save = function () {
                 if ($scope.form.$valid) {
