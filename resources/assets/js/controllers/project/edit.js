@@ -13,8 +13,13 @@ angular.module('app.controllers')
                   $location,
                   $routeParams) {
 
-            $scope.project = projectService.get({id: $routeParams.id});
-            $scope.clients = clientService.query();
+            projectService.get({id: $routeParams.id}, function (data) {
+                $scope.project = data;
+                clientService.get({id: data.client_id}, function (data) {
+                    $scope.clientSelected = data;
+                });
+            });
+
             $scope.status = appConfig.project.status;
 
             $scope.save = function () {
@@ -25,5 +30,18 @@ angular.module('app.controllers')
 
                     });
                 }
+            };
+
+            $scope.formatName = function (model) {
+                if (model) {
+                    return model.name;
+                }
+                return '';
+            };
+
+            $scope.getClients = function (name) {
+                return clientService.query({
+                    search: name
+                }).$promise;
             };
         }]);
