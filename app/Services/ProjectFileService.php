@@ -110,7 +110,13 @@ class ProjectFileService
         if ($this->checkProjectOwner($id) == false) {
             return ['error' => 'Access forbidden'];
         }
-        $this->repository->delete($fileId);
+
+        $projectFile = $this->repository->find($fileId);
+
+        if ($this->storage->exists($projectFile->id . '.' . $projectFile->extension)) {
+            $this->storage->delete($projectFile->id . '.' . $projectFile->extension);
+            $projectFile->delete();
+        }
     }
 
     public function download($id, $fileId)
