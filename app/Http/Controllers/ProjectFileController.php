@@ -2,124 +2,61 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Services\ProjectService;
+use CodeProject\Services\ProjectFileService;
 use Illuminate\Http\Request;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 class ProjectFileController extends Controller
 {
     /**
-     * @var ProjectRepository
-     */
-    private $repository;
-    /**
-     * @var ProjectService
+     * @var ProjectFileService
      */
     private $service;
 
     /**
-     * ProjectController constructor.
-     * @param ProjectRepository $repository
-     * @param ProjectService $service
+     * ProjectFileController constructor.
+     * @param ProjectFileService $service
      */
-    public function __construct(ProjectRepository $repository, ProjectService $service)
+    public function __construct(ProjectFileService $service)
     {
-        $this->repository = $repository;
         $this->service = $service;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index($id)
     {
-        return $this->repository->findWhere(['owner_id'=>Authorizer::getResourceOwnerId()]);
+        return $this->service->getByProjectId($id);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();
 
-        $data['project_id'] = $request->project_id;
+        $data['project_id'] = $id;
         $data['name'] = $request->name;
         $data['description'] = $request->description;
         $data['extension'] = $extension;
         $data['file'] = $file;
 
-        $this->service->createFile($data);
+        return $this->service->store($data, $id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show($id, $fileId)
     {
-        if ($this->checkProjectPermissions($id) == false){
-            return ['error' => 'Access forbidden'];
-        }
-        return $this->repository->find($id);
+        return $this->service->getByIdFile($id, $fileId);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function showFile($id, $fileId)
     {
-        if ($this->checkProjectOwner($id) == false){
-            return ['error' => 'Access forbidden'];
-        }
-        return $this->service->update($request->all(),$id);
+        return $this->service->download($id, $fileId);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function update(Request $request, $id, $fileId)
     {
-        if ($this->checkProjectOwner($id) == false){
-            return ['error' => 'Access forbidden'];
-        }
-        $this->repository->delete($id);
+        return $this->service->update($request->all(), $id, $fileId);
     }
 
-    private function checkProjectOwner($projectId)
+    public function destroy($id, $fileId)
     {
-        $userId = Authorizer::getResourceOwnerId();
-        return $this->repository->isOwner($projectId, $userId);
-    }
-
-    private function checkProjectMember($projectId)
-    {
-        $merberId = Authorizer::getResourceOwnerId();
-        return $this->repository->hasMember($projectId, $merberId);
-    }
-
-    private function checkProjectPermissions($projectId)
-    {
-        if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)){
-            return true;
-        }
-
-        return false;
+        return $this->service->destroy($id, $fileId);
     }
 }

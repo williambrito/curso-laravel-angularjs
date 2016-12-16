@@ -9,6 +9,8 @@ use CodeProject\Entities\ProjectFile;
 
 class ProjectFileRepositoryEloquent extends BaseRepository implements ProjectFileRepository
 {
+    protected $skipPresenter = true;
+
     /**
      * Specify Model class name
      *

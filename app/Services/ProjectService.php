@@ -8,13 +8,10 @@
 
 namespace CodeProject\Services;
 
-
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectValidator;
+use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 use Prettus\Validator\Exceptions\ValidatorException;
-
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Contracts\Filesystem\Factory as Storage;
 
 class ProjectService
 {
@@ -26,38 +23,38 @@ class ProjectService
      * @var ProjectValidator
      */
     private $validator;
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-    /**
-     * @var Storage
-     */
-    private $storage;
-
 
     /**
      * ProjectService constructor.
      * @param ProjectRepository $repository
      * @param ProjectValidator $validator
-     * @param Filesystem $filesystem
-     * @param Storage $storage
      */
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator, Filesystem $filesystem, Storage $storage)
+    public function __construct(ProjectRepository $repository,
+                                ProjectValidator $validator)
     {
-
         $this->repository = $repository;
         $this->validator = $validator;
-        $this->filesystem = $filesystem;
-        $this->storage = $storage;
+    }
+
+    public function getAll()
+    {
+        return $this->repository->skipPresenter(false)->findWhere(['owner_id' => Authorizer::getResourceOwnerId()]);
+    }
+
+    public function getById($id)
+    {
+        if ($this->checkProjectPermissions($id) == false) {
+            return ['error' => 'Access forbidden'];
+        }
+        return $this->repository->skipPresenter(false)->find($id);
     }
 
     public function create(array $data)
     {
-        try{
+        try {
             $this->validator->with($data)->passesOrFail();
             return $this->repository->skipPresenter(false)->create($data);
-        }catch (ValidatorException $e){
+        } catch (ValidatorException $e) {
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()
@@ -67,10 +64,14 @@ class ProjectService
 
     public function update(array $data, $id)
     {
-        try{
+        if ($this->checkProjectOwner($id) == false) {
+            return ['error' => 'Access forbidden'];
+        }
+
+        try {
             $this->validator->with($data)->passesOrFail();
-            return $this->repository->skipPresenter(false)->update($data,$id);
-        }catch (ValidatorException $e){
+            return $this->repository->skipPresenter(false)->update($data, $id);
+        } catch (ValidatorException $e) {
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()
@@ -78,11 +79,33 @@ class ProjectService
         }
     }
 
-    public function createFile(array $data)
+    public function destroy($id)
     {
-        $project = $this->repository->skipPresenter()->find($data['project_id']);
-        $projectFile = $project->files()->create($data);
+        if ($this->checkProjectOwner($id) == false) {
+            return ['error' => 'Access forbidden'];
+        }
 
-        $this->storage->put($projectFile->id . "." . $projectFile->extension, $this->filesystem->get($data['file']));
+        $this->repository->delete($id);
+    }
+
+    private function checkProjectOwner($projectId)
+    {
+        $userId = Authorizer::getResourceOwnerId();
+        return $this->repository->isOwner($projectId, $userId);
+    }
+
+    private function checkProjectMember($projectId)
+    {
+        $merberId = Authorizer::getResourceOwnerId();
+        return $this->repository->hasMember($projectId, $merberId);
+    }
+
+    private function checkProjectPermissions($projectId)
+    {
+        if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)) {
+            return true;
+        }
+
+        return false;
     }
 }
