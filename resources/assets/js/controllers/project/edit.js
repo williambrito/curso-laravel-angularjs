@@ -15,9 +15,7 @@ angular.module('app.controllers')
 
             projectService.get({id: $routeParams.id}, function (data) {
                 $scope.project = data;
-                clientService.get({id: data.client_id}, function (data) {
-                    $scope.clientSelected = data;
-                });
+                $scope.clientSelected = data.client.data;
             });
 
             $scope.status = appConfig.project.status;

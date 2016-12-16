@@ -53,11 +53,15 @@
                                        ng-model="clientSelected"
                                        uib-typeahead="client as client.name for client in getClients($viewValue) | limitTo:5"
                                        typeahead-input-formatter="formatName($model)"
-                                       typeahead-on-select="project.client_id = $item.id">
+                                       typeahead-on-select="project.client_id = $item.id"
+                                       typeahead-editable="false"
+                                       autocomplete="off"
+                                       required>
                                 <div ng-messages="form.client_id.$error"
                                      class="help-block"
                                      ng-show="!form.client_id.$valid && form.client_id.$touched">
-                                    <div ng-message="required">Selecione um client para o project.</div>
+                                    <div ng-message="required">Informe um client para o project.</div>
+                                    <div ng-message="editable">Informe um client valido para o project.</div>
                                 </div>
                             </div>
                         </div>
