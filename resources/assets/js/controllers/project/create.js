@@ -15,7 +15,6 @@ angular.module('app.controllers')
 
             $scope.projectService = new projectService();
             $scope.project = {};
-            $scope.clients = clientService.query();
             $scope.status = appConfig.project.status;
 
             $scope.save = function () {
@@ -29,11 +28,9 @@ angular.module('app.controllers')
                 }
             };
 
-            $scope.formatName = function (id) {
-                if (id) {
-                    return $scope.clients.filter(function (client) {
-                        return client.id == id;
-                    })[0].name;
+            $scope.formatName = function (model) {
+                if (model) {
+                    return model.name;
                 }
                 return '';
             };
