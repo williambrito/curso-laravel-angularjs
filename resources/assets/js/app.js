@@ -5,6 +5,7 @@ var app = angular.module('app', [
     'ui.bootstrap.tpls',
     'ui.bootstrap.datepickerPopup',
     'ui.bootstrap.typeahead',
+    'ngFileUpload',
     'app.controllers',
     'app.filters',
     'app.services'
