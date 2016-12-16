@@ -1,20 +1,20 @@
 angular.module('app.controllers')
-    .controller('projectNoteCreateController', [
+    .controller('projectFileCreateController', [
         '$scope',
-        'projectNoteService',
+        //'projectFileService',
         '$location',
         '$routeParams',
         function ($scope,
-                  projectNoteService,
+                  //projectFileService,
                   $location,
                   $routeParams) {
-            $scope.note = new projectNoteService();
-            $scope.note.project_id = $routeParams.id;
+            $scope.file = {};//new projectFileService();
+            $scope.file.project_id = $routeParams.id;
 
             $scope.save = function () {
                 if ($scope.form.$valid) {
-                    $scope.note.$save({id: $routeParams.id}).then(function () {
-                        $location.path('/project/' + $routeParams.id + '/notes');
+                    $scope.file.$save({id: $routeParams.id}).then(function () {
+                        $location.path('/project/' + $routeParams.id + '/files');
                     }, function () {
 
                     });
