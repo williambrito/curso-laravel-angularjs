@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Excluindo noda de projeto</div>
+                <div class="panel-body">
+                    <div class="alert alert-danger" ng-show="error.erro">
+                        <h4><strong>Ops!</strong> Ocorreram erros.</h4>
+                        <div>{{ error.message }}</div>
+                    </div>
+                    <h4>Deseja excluir esta nota de projeto?</h4>
+                    <ul>
+                        <li><strong>Title:</strong> {{note.title}}</li>
+                        <li><strong>Note:</strong> {{note.note}}</li>
+                    </ul>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-danger" ng-click="delete()">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
