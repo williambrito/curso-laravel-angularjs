@@ -37,4 +37,10 @@ angular.module('app.controllers')
                 }
                 return '';
             };
+
+            $scope.getClients = function (name) {
+                return clientService.query({
+                    search: name
+                }).$promise;
+            };
         }]);
