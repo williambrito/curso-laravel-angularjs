@@ -3,6 +3,7 @@ var app = angular.module('app', [
     'angular-oauth2',
     'ngMessages',
     'ui.bootstrap.tpls',
+    'ui.bootstrap.datepickerPopup',
     'ui.bootstrap.typeahead',
     'app.controllers',
     'app.filters',
