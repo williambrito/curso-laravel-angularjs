@@ -3,10 +3,14 @@ angular.module('app.controllers')
         '$scope',
         '$location',
         '$routeParams',
+        'appConfig',
+        'urlService',
         'Upload',
         function ($scope,
                   $location,
                   $routeParams,
+                  appConfig,
+                  urlService,
                   Upload) {
 
             $scope.file = {
@@ -15,8 +19,13 @@ angular.module('app.controllers')
 
             $scope.save = function () {
                 if ($scope.form.$valid) {
+                    var uploadUrl = appConfig.baseUrl +
+                        urlService.getUrlFromUrlSymbol(appConfig.urls.projectFile, {
+                            id: $scope.file.project_id,
+                            idFile: ''
+                        });
                     Upload.upload({
-                        url: 'http://localhost:8000/project/' + $scope.file.project_id + '/file',
+                        url: uploadUrl,
                         data: {
                             file: $scope.file.file,
                             name: $scope.file.name,
