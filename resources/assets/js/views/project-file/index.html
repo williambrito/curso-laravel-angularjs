@@ -18,7 +18,7 @@
                             <td>{{ file.name }}</td>
                             <td>{{ file.description | limitTo:50 }}...</td>
                             <td>
-                                <a ng-href="#/project/{{ file.project_id }}/file/{{ file.id }}/download">Arquivo</a>
+                                <project-file-download></project-file-download>
                             </td>
                             <td>
                                 <a ng-href="#/project/{{ file.project_id }}/file/{{ file.id }}/edit">Editar</a> |

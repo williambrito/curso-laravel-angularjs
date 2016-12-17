@@ -7,7 +7,7 @@ angular.module('app.directives')
 
             return {
                 restrict: 'E',
-                templateUrl: appConfig.baseUrl + 'build/views/templates/projectFileDownload.html',
+                templateUrl: appConfig.baseUrl + '/build/views/templates/project-file-download.html',
                 link: function (scope, element, attr) {
 
                 },
