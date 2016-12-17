@@ -1,10 +1,10 @@
 angular.module('app.controllers')
-    .controller('projectNoteIndexController', [
+    .controller('projectFileIndexController', [
         '$scope',
-        'projectNoteService',
+        'projectFileService',
         '$routeParams',
         function ($scope,
-                  projectNoteService,
+                  projectFileService,
                   $routeParams) {
-            $scope.notes = projectNoteService.query({id: $routeParams.id});
+            $scope.files = projectFileService.query({id: $routeParams.id});
         }]);
