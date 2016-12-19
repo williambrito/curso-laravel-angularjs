@@ -13,6 +13,7 @@ use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectFileValidator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
+use Prettus\Validator\Contracts\ValidatorInterface;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 use Prettus\Validator\Exceptions\ValidatorException;
 
@@ -75,7 +76,7 @@ class ProjectFileService
         }
 
         try {
-            $this->validator->with($data)->passesOrFail();
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
 
             $projectFile = $this->repository->create($data);
             $this->storage->put($projectFile->id . "." . $projectFile->extension, $this->filesystem->get($data['file']));
@@ -102,7 +103,17 @@ class ProjectFileService
         if ($this->checkProjectPermissions($id) == false) {
             return ['error' => 'Access forbidden'];
         }
-        return $this->repository->skipPresenter(false)->update($data, $fileId);
+
+        try {
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+
+            return $this->repository->skipPresenter(false)->update($data, $fileId);
+        } catch (ValidatorException $e) {
+            return [
+                'error' => true,
+                'message' => $e->getMessageBag()
+            ];
+        }
     }
 
     public function destroy($id, $fileId)
