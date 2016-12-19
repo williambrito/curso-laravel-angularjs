@@ -1,17 +1,17 @@
 angular.module('app.controllers')
-    .controller('projectNoteDeleteController', [
+    .controller('projectFileDeleteController', [
         '$scope',
-        'projectNoteService',
+        'projectFileService',
         '$location',
         '$routeParams',
         function ($scope,
-                  projectNoteService,
+                  projectFileService,
                   $location,
                   $routeParams) {
 
-            $scope.note = projectNoteService.get({
+            $scope.file = projectFileService.get({
                 id: $routeParams.id,
-                idNote: $routeParams.idNote
+                idFile: $routeParams.idFile
             });
 
             $scope.error = {
@@ -20,11 +20,11 @@ angular.module('app.controllers')
             };
 
             $scope.delete = function () {
-                $scope.note.$delete({
+                $scope.file.$delete({
                     id: $routeParams.id,
-                    idNote: $routeParams.idNote
+                    idFile: $routeParams.idFile
                 }).then(function () {
-                    $location.path('/project/' + $routeParams.id + '/notes');
+                    $location.path('/project/' + $routeParams.id + '/files');
                 }, function (data) {
                     $scope.error.erro = true;
                     $scope.error.message = data.data.erro;
