@@ -51,7 +51,7 @@
                                      ngf-select
                                      ng-model="file.file"
                                      name="file">
-                                    Selecione
+                                    {{ file.file.name? file.file.name : 'Selecione' }}
                                 </div>
                                 <div ng-messages="form.file.$error"
                                      class="help-block"
