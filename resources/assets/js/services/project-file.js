@@ -6,10 +6,16 @@ angular.module('app.services')
         function ($resource,
                   appConfig,
                   urlService) {
+
             var url = urlService.getUrlResource(appConfig.urls.projectFile);
+
             return $resource(url, {id: '@id', idFile: '@idFile'}, {
                 update: {
                     method: 'PUT'
+                },
+                download: {
+                    method: 'GET',
+                    url: url + '/download'
                 }
             });
         }]);

@@ -16,6 +16,9 @@ angular.module('app.directives')
                         var anchor = $element.children()[0];
                         $(anchor).addClass('disabled');
                         $(anchor).text('Loading...');
+                        projectFileService.download({id: $attrs.idProject, idFile: $attrs.idFile}, function (data) {
+
+                        });
                     };
                 }]
             };
