@@ -113,8 +113,8 @@ class ProjectFileService
 
         $projectFile = $this->repository->find($fileId);
 
-        if ($this->storage->exists($projectFile->id . '.' . $projectFile->extension)) {
-            $this->storage->delete($projectFile->id . '.' . $projectFile->extension);
+        if ($this->storage->exists($projectFile->getFileName())) {
+            $this->storage->delete($projectFile->getFileName());
             $projectFile->delete();
         }
     }
@@ -124,7 +124,16 @@ class ProjectFileService
         if ($this->checkProjectOwner($id) == false) {
             return ['error' => 'Access forbidden'];
         }
-        return response()->download($this->getFilePath($fileId));
+
+        $filePath = $this->getFilePath($fileId);
+        $fileContent = file_get_contents($filePath);
+        $file64 = base64_encode($fileContent);
+
+        return [
+            'file' => $file64,
+            'size' => filesize($filePath),
+            'name' => $this->repository->find($fileId)->getFileName()
+        ];
     }
 
     private function getFilePath($fileId)
@@ -138,7 +147,7 @@ class ProjectFileService
         switch ($this->storage->getDefaultDriver()) {
             case 'local':
                 return $this->storage->getDriver()->getAdapter()->getPathPrefix()
-                    . '/' . $projectFile->id . '.' . $projectFile->extension;
+                    . '/' . $projectFile->getFileName();
         }
         return null;
     }
