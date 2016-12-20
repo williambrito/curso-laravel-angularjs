@@ -33,8 +33,6 @@ angular.module('app.controllers')
                 if ($scope.form.$valid) {
                     projectService.update({id: $scope.project.id}, $scope.project, function () {
                         $location.path('/projects');
-                    }, function () {
-
                     });
                 }
             };

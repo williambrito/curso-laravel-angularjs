@@ -37,26 +37,26 @@ class ProjectFileController extends Controller
         $data['extension'] = $extension;
         $data['file'] = $file;
 
-        return $this->service->store($data, $id);
+        return $this->service->store($data);
     }
 
     public function show($id, $fileId)
     {
-        return $this->service->getByIdFile($id, $fileId);
+        return $this->service->getByIdFile($fileId);
     }
 
     public function showFile($id, $fileId)
     {
-        return $this->service->download($id, $fileId);
+        return $this->service->download($fileId);
     }
 
     public function update(Request $request, $id, $fileId)
     {
-        return $this->service->update($request->all(), $id, $fileId);
+        return $this->service->update($request->all(), $fileId);
     }
 
     public function destroy($id, $fileId)
     {
-        return $this->service->destroy($id, $fileId);
+        return $this->service->destroy($fileId);
     }
 }

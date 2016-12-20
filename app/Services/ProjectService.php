@@ -11,6 +11,7 @@ namespace CodeProject\Services;
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectValidator;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ProjectService
@@ -38,57 +39,47 @@ class ProjectService
 
     public function getAll()
     {
-        return $this->repository->skipPresenter(false)->findWhere(['owner_id' => Authorizer::getResourceOwnerId()]);
+        return $this->repository->skipPresenter(false)->findWithOwnerAndMember(Authorizer::getResourceOwnerId());
     }
 
     public function getById($id)
     {
-        if ($this->checkProjectPermissions($id) == false) {
-            return ['error' => 'Access forbidden'];
-        }
         return $this->repository->skipPresenter(false)->find($id);
     }
 
     public function create(array $data)
     {
         try {
-            $this->validator->with($data)->passesOrFail();
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
             return $this->repository->skipPresenter(false)->create($data);
         } catch (ValidatorException $e) {
-            return [
+            return response()->json([
                 'error' => true,
                 'message' => $e->getMessageBag()
-            ];
+            ], 400);
         }
     }
 
     public function update(array $data, $id)
     {
-        if ($this->checkProjectOwner($id) == false) {
-            return ['error' => 'Access forbidden'];
-        }
-
         try {
-            $this->validator->with($data)->passesOrFail();
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            $data['owner_id'] = Authorizer::getResourceOwnerId();
             return $this->repository->skipPresenter(false)->update($data, $id);
         } catch (ValidatorException $e) {
-            return [
+            return response()->json([
                 'error' => true,
                 'message' => $e->getMessageBag()
-            ];
+            ], 400);
         }
     }
 
     public function destroy($id)
     {
-        if ($this->checkProjectOwner($id) == false) {
-            return ['error' => 'Access forbidden'];
-        }
-
         $this->repository->delete($id);
     }
 
-    private function checkProjectOwner($projectId)
+    public function checkProjectOwner($projectId)
     {
         $userId = Authorizer::getResourceOwnerId();
         return $this->repository->isOwner($projectId, $userId);
@@ -97,15 +88,14 @@ class ProjectService
     private function checkProjectMember($projectId)
     {
         $merberId = Authorizer::getResourceOwnerId();
-        return $this->repository->hasMember($projectId, $merberId);
+        return $this->repository->isMember($projectId, $merberId);
     }
 
-    private function checkProjectPermissions($projectId)
+    public function checkProjectPermissions($projectId)
     {
         if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)) {
             return true;
         }
-
         return false;
     }
 }

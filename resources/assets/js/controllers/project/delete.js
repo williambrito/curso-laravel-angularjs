@@ -10,6 +10,7 @@ angular.module('app.controllers')
                   $routeParams) {
 
             $scope.project = projectService.get({id: $routeParams.id});
+
             $scope.error = {
                 erro: false,
                 message: ''
@@ -20,7 +21,7 @@ angular.module('app.controllers')
                     $location.path('/projects');
                 }, function (data) {
                     $scope.error.erro = true;
-                    $scope.error.message = data.data.erro;
+                    $scope.error.message = data.data.message;
                 });
             };
         }]);

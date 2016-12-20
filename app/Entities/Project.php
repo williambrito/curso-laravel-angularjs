@@ -13,7 +13,6 @@ class Project extends Model implements Transformable
     protected $fillable = [
         'owner_id',
         'client_id',
-        'client_id',
         'name',
         'description',
         'progress',

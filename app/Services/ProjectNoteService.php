@@ -29,35 +29,51 @@ class ProjectNoteService
      * @param ProjectNoteRepository $repository
      * @param ProjectNoteValidator $validator
      */
-    public function __construct(ProjectNoteRepository $repository, ProjectNoteValidator $validator)
+    public function __construct(ProjectNoteRepository $repository,
+                                ProjectNoteValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
     }
 
+    public function getByProjectId($projectId)
+    {
+        return $this->repository->skipPresenter(false)->findWhere(['project_id' => $projectId]);
+    }
+
+    public function getByIdNote($noteId)
+    {
+        return $this->repository->skipPresenter(false)->find($noteId);
+    }
+
     public function create(array $data)
     {
-        try{
+        try {
             $this->validator->with($data)->passesOrFail();
             return $this->repository->create($data);
-        }catch (ValidatorException $e){
-            return [
+        } catch (ValidatorException $e) {
+            return response()->json([
                 'error' => true,
                 'message' => $e->getMessageBag()
-            ];
+            ], 400);
         }
     }
 
-    public function update(array $data, $id)
+    public function update(array $data, $noteId)
     {
-        try{
+        try {
             $this->validator->with($data)->passesOrFail();
-            return $this->repository->update($data,$id);
-        }catch (ValidatorException $e){
-            return [
+            return $this->repository->update($data, $noteId);
+        } catch (ValidatorException $e) {
+            return response()->json([
                 'error' => true,
                 'message' => $e->getMessageBag()
-            ];
+            ], 400);
         }
+    }
+
+    public function destroy($noteId)
+    {
+        $this->repository->delete($noteId);
     }
 }

@@ -14,6 +14,8 @@ use CodeProject\Entities\ProjectNote;
  */
 class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNoteRepository
 {
+    protected $skipPresenter = true;
+
     /**
      * Specify Model class name
      *
@@ -23,7 +25,6 @@ class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNot
     {
         return ProjectNote::class;
     }
-
 
     /**
      * Boot up the repository, pushing criteria

@@ -9,7 +9,6 @@ angular.module('app.controllers')
                   $location,
                   $routeParams) {
             $scope.note = new projectNoteService();
-            $scope.note.project_id = $routeParams.id;
 
             $scope.save = function () {
                 if ($scope.form.$valid) {

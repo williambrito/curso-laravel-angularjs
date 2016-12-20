@@ -9,12 +9,10 @@
 namespace CodeProject\Services;
 
 use CodeProject\Repositories\ProjectFileRepository;
-use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectFileValidator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Prettus\Validator\Contracts\ValidatorInterface;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ProjectFileService
@@ -23,10 +21,6 @@ class ProjectFileService
      * @var ProjectFileRepository
      */
     private $repository;
-    /**
-     * @var ProjectRepository
-     */
-    private $projectRepository;
     /**
      * @var Filesystem
      */
@@ -43,19 +37,16 @@ class ProjectFileService
     /**
      * ProjectFileService constructor.
      * @param ProjectFileRepository $repository
-     * @param ProjectRepository $projectRepository
      * @param Filesystem $filesystem
      * @param Storage $storage
      * @param ProjectFileValidator $validator
      */
     public function __construct(ProjectFileRepository $repository,
-                                ProjectRepository $projectRepository,
                                 Filesystem $filesystem,
                                 Storage $storage,
                                 ProjectFileValidator $validator)
     {
         $this->repository = $repository;
-        $this->projectRepository = $projectRepository;
         $this->filesystem = $filesystem;
         $this->storage = $storage;
         $this->validator = $validator;
@@ -63,65 +54,44 @@ class ProjectFileService
 
     public function getByProjectId($projectId)
     {
-        if ($this->checkProjectPermissions($projectId) == false) {
-            return ['error' => 'Access forbidden'];
-        }
         return $this->repository->skipPresenter(false)->findWhere(['project_id' => $projectId]);
     }
 
-    public function store(array $data, $id)
+    public function getByIdFile($fileId)
     {
-        if ($this->checkProjectPermissions($id) == false) {
-            return ['error' => 'Access forbidden'];
-        }
-
-        try {
-            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
-
-            $projectFile = $this->repository->create($data);
-            $this->storage->put($projectFile->id . "." . $projectFile->extension, $this->filesystem->get($data['file']));
-
-            return $this->repository->skipPresenter(false)->find($projectFile->id);
-        } catch (ValidatorException $e) {
-            return [
-                'error' => true,
-                'message' => $e->getMessageBag()
-            ];
-        }
-    }
-
-    public function getByIdFile($id, $fileId)
-    {
-        if ($this->checkProjectPermissions($id) == false) {
-            return ['error' => 'Access forbidden'];
-        }
         return $this->repository->skipPresenter(false)->find($fileId);
     }
 
-    public function update(array $data, $id, $fileId)
+    public function store(array $data)
     {
-        if ($this->checkProjectPermissions($id) == false) {
-            return ['error' => 'Access forbidden'];
-        }
-
         try {
-            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            return $this->repository->skipPresenter(false)->update($data, $fileId);
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
+            $projectFile = $this->repository->create($data);
+            $this->storage->put($projectFile->getFileName(), $this->filesystem->get($data['file']));
+            return $this->repository->skipPresenter(false)->find($projectFile->id);
         } catch (ValidatorException $e) {
-            return [
+            return response()->json([
                 'error' => true,
                 'message' => $e->getMessageBag()
-            ];
+            ], 400);
         }
     }
 
-    public function destroy($id, $fileId)
+    public function update(array $data, $fileId)
     {
-        if ($this->checkProjectOwner($id) == false) {
-            return ['error' => 'Access forbidden'];
+        try {
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            return $this->repository->skipPresenter(false)->update($data, $fileId);
+        } catch (ValidatorException $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessageBag()
+            ], 400);
         }
+    }
 
+    public function destroy($fileId)
+    {
         $projectFile = $this->repository->find($fileId);
 
         if ($this->storage->exists($projectFile->getFileName())) {
@@ -130,12 +100,8 @@ class ProjectFileService
         }
     }
 
-    public function download($id, $fileId)
+    public function download($fileId)
     {
-        if ($this->checkProjectOwner($id) == false) {
-            return ['error' => 'Access forbidden'];
-        }
-
         $filePath = $this->getFilePath($fileId);
         $fileContent = file_get_contents($filePath);
         $file64 = base64_encode($fileContent);
@@ -161,25 +127,5 @@ class ProjectFileService
                     . '/' . $projectFile->getFileName();
         }
         return null;
-    }
-
-    private function checkProjectOwner($projectId)
-    {
-        $userId = Authorizer::getResourceOwnerId();
-        return $this->projectRepository->isOwner($projectId, $userId);
-    }
-
-    private function checkProjectMember($projectId)
-    {
-        $merberId = Authorizer::getResourceOwnerId();
-        return $this->projectRepository->hasMember($projectId, $merberId);
-    }
-
-    private function checkProjectPermissions($projectId)
-    {
-        if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)) {
-            return true;
-        }
-        return false;
     }
 }

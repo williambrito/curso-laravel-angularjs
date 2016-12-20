@@ -21,7 +21,6 @@ class ProjectFileRepositoryEloquent extends BaseRepository implements ProjectFil
         return ProjectFile::class;
     }
 
-
     /**
      * Boot up the repository, pushing criteria
      */

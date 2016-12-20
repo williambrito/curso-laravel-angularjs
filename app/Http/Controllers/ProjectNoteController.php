@@ -2,16 +2,11 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ProjectNoteRepository;
 use CodeProject\Services\ProjectNoteService;
 use Illuminate\Http\Request;
 
 class ProjectNoteController extends Controller
 {
-    /**
-     * @var ProjectNoteRepository
-     */
-    private $repository;
     /**
      * @var ProjectNoteService
      */
@@ -19,77 +14,39 @@ class ProjectNoteController extends Controller
 
     /**
      * ProjectNoteController constructor.
-     * @param ProjectNoteRepository $repository
      * @param ProjectNoteService $service
      */
-    public function __construct(ProjectNoteRepository $repository, ProjectNoteService $service)
+    public function __construct(ProjectNoteService $service)
     {
-        $this->repository = $repository;
         $this->service = $service;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param $id
-     * @return \Illuminate\Http\Response
-     */
     public function index($id)
     {
-        return $this->repository->findWhere(['project_id' => $id]);
+        return $this->service->getByProjectId($id);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        return $this->service->create($request->all());
+        $data = $request->all();
+        $data['project_id'] = $id;
+        return $this->service->create($data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @param $noteId
-     * @return \Illuminate\Http\Response
-     */
     public function show($id, $noteId)
     {
-        $result = $this->repository->findWhere(['project_id' => $id, 'id' => $noteId]);
-        if (isset($result['data']) && count($result['data']) == 1) {
-            $result = [
-                'data' => $result['data'][0]
-            ];
-        }
-        return $result;
+        return $this->service->getByIdNote($noteId);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @param $noteId
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id, $noteId)
     {
-        return $this->service->update($request->all(), $noteId);
+        $data = $request->all();
+        $data['project_id'] = $id;
+        return $this->service->update($data, $noteId);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @param $noteId
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id, $noteId)
     {
-        $this->repository->delete($noteId);
+        return $this->service->destroy($noteId);
     }
 }

@@ -32,8 +32,6 @@ angular.module('app.controllers')
                     $scope.project.owner_id = $cookies.getObject('user').id;
                     $scope.projectService.$save($scope.project).then(function () {
                         $location.path('/projects');
-                    }, function () {
-
                     });
                 }
             };
