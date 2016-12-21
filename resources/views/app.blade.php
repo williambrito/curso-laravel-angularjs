@@ -108,6 +108,7 @@
 		<script src="{{ asset('build/js/controllers/project-file/delete.js') }}"></script>
 		<!-- project task -->
 		<script src="{{ asset('build/js/controllers/project-task/index.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/project-task/create.js') }}"></script>
 		<!-- directives -->
 		<script src="{{ asset('build/js/directives/project-file-download.js') }}"></script>
 		<!-- filters -->
