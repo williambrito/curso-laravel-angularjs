@@ -27,6 +27,12 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamS
                 {value: 3, label: 'Concluído'}
             ]
         },
+        projectTask: {
+            status: [
+                {value: 1, label: 'Inconpleta'},
+                {value: 2, label: 'Completa'}
+            ]
+        },
         urls: {
             projectFile: '/project/{{id}}/file/{{idFile}}'
         },
@@ -86,38 +92,41 @@ app.config([
                 templateUrl: 'build/views/home.html',
                 controller: 'homeController'
             })
+            /*clients*/
             .when('/clients', {
                 templateUrl: 'build/views/client/index.html',
                 controller: 'clientIndexController'
             })
-            .when('/clients/create', {
+            .when('/client/create', {
                 templateUrl: 'build/views/client/create.html',
                 controller: 'clientCreateController'
             })
-            .when('/clients/:id/edit', {
+            .when('/client/:id/edit', {
                 templateUrl: 'build/views/client/edit.html',
                 controller: 'clientEditController'
             })
-            .when('/clients/:id/delete', {
+            .when('/client/:id/delete', {
                 templateUrl: 'build/views/client/delete.html',
                 controller: 'clientDeleteController'
             })
+            /*projects*/
             .when('/projects', {
                 templateUrl: 'build/views/project/index.html',
                 controller: 'projectIndexController'
             })
-            .when('/projects/create', {
+            .when('/project/create', {
                 templateUrl: 'build/views/project/create.html',
                 controller: 'projectCreateController'
             })
-            .when('/projects/:id/edit', {
+            .when('/project/:id/edit', {
                 templateUrl: 'build/views/project/edit.html',
                 controller: 'projectEditController'
             })
-            .when('/projects/:id/delete', {
+            .when('/project/:id/delete', {
                 templateUrl: 'build/views/project/delete.html',
                 controller: 'projectDeleteController'
             })
+            /*project-notes*/
             .when('/project/:id/notes', {
                 templateUrl: 'build/views/project-note/index.html',
                 controller: 'projectNoteIndexController'
@@ -138,6 +147,7 @@ app.config([
                 templateUrl: 'build/views/project-note/delete.html',
                 controller: 'projectNoteDeleteController'
             })
+            /*project-files*/
             .when('/project/:id/files', {
                 templateUrl: 'build/views/project-file/index.html',
                 controller: 'projectFileIndexController'
@@ -153,6 +163,23 @@ app.config([
             .when('/project/:id/file/:idFile/delete', {
                 templateUrl: 'build/views/project-file/delete.html',
                 controller: 'projectFileDeleteController'
+            })
+            /*project-tasks*/
+            .when('/project/:id/tasks', {
+                templateUrl: 'build/views/project-task/index.html',
+                controller: 'projectTaskIndexController'
+            })
+            .when('/project/:id/task/create', {
+                templateUrl: 'build/views/project-task/create.html',
+                controller: 'projectTaskCreateController'
+            })
+            .when('/project/:id/task/:idTask/edit', {
+                templateUrl: 'build/views/project-task/edit.html',
+                controller: 'projectTaskEditController'
+            })
+            .when('/project/:id/task/:idTask/delete', {
+                templateUrl: 'build/views/project-task/delete.html',
+                controller: 'projectTaskDeleteController'
             });
 
         OAuthProvider.configure({
