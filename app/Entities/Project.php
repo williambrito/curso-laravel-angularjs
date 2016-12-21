@@ -25,19 +25,24 @@ class Project extends Model implements Transformable
         return $this->belongsTo(Client::class);
     }
 
-    public function notes()
-    {
-        return $this->hasMany(ProjectNote::class);
-    }
-
     public function members()
     {
         return $this->belongsToMany(User::class, 'project_members', 'project_id', 'member_id');
     }
 
+    public function notes()
+    {
+        return $this->hasMany(ProjectNote::class);
+    }
+
     public function files()
     {
         return $this->hasMany(ProjectFile::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(ProjectTask::class);
     }
 
 }

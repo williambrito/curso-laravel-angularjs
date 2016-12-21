@@ -38,6 +38,12 @@ Route::group(['middleware' => 'oauth'], function () {
         Route::post('{id}/file', 'ProjectFileController@store');
         Route::put('{id}/file/{fileId}', 'ProjectFileController@update');
         Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
+
+        Route::get('{id}/task', 'ProjectTaskController@index');
+        Route::post('{id}/task', 'ProjectTaskController@store');
+        Route::get('{id}/task/{taskId}', 'ProjectTaskController@show');
+        Route::put('{id}/task/{taskId}', 'ProjectTaskController@update');
+        Route::delete('{id}/task/{taskId}', 'ProjectTaskController@destroy');
     });
 
     Route::get('user/authenticated', 'UserController@authenticated');
