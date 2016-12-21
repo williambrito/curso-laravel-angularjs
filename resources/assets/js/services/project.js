@@ -14,7 +14,7 @@ angular.module('app.services')
                     return appConfig.utils.transformRequest(request);
                 }
                 return data;
-            };
+            }
 
             return $resource('/project/:id', {id: '@id'}, {
                 save: {
