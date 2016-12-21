@@ -110,6 +110,7 @@
 		<script src="{{ asset('build/js/controllers/project-task/index.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-task/create.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-task/edit.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/project-task/delete.js') }}"></script>
 		<!-- directives -->
 		<script src="{{ asset('build/js/directives/project-file-download.js') }}"></script>
 		<!-- filters -->
