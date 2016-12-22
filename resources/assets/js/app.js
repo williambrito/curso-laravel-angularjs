@@ -88,6 +88,14 @@ app.config([
                 templateUrl: 'build/views/login.html',
                 controller: 'loginController'
             })
+            .when('/logout', {
+                resolve: {
+                    logout: ['$location', 'OAuthToken', function ($location, OAuthToken) {
+                        OAuthToken.removeToken();
+                        return $location.path('/login');
+                    }]
+                }
+            })
             .when('/home', {
                 templateUrl: 'build/views/home.html',
                 controller: 'homeController'
