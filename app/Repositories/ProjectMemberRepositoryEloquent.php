@@ -2,24 +2,21 @@
 /**
  * Created by PhpStorm.
  * User: Brito
- * Date: 13/12/2016
- * Time: 14:07
+ * Date: 22/12/2016
+ * Time: 09:16
  */
 
 namespace CodeProject\Repositories;
 
-use CodeProject\Entities\User;
-use CodeProject\Presenters\UserPresenter;
+
+use CodeProject\Entities\ProjectMember;
+use CodeProject\Presenters\ProjectMemberPresenter;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class UserRepositoryEloquent extends BaseRepository implements UserRepository
+class ProjectMemberRepositoryEloquent extends BaseRepository implements ProjectMemberRepository
 {
     protected $skipPresenter = true;
-
-    protected $fieldSearchable = [
-        'name' => 'like'
-    ];
 
     /**
      * Specify Model class name
@@ -28,7 +25,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
      */
     public function model()
     {
-        return User::class;
+        return ProjectMember::class;
     }
 
     public function boot()
@@ -38,6 +35,6 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
 
     public function presenter()
     {
-        return UserPresenter::class;
+        return ProjectMemberPresenter::class;
     }
 }

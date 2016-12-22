@@ -21,6 +21,11 @@ class UserController extends Controller
         $this->repository = $repository;
     }
 
+    public function index()
+    {
+        return $this->repository->skipPresenter(false)->all();
+    }
+
     public function authenticated()
     {
         $userId = Authorizer::getResourceOwnerId();
