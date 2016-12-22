@@ -9,9 +9,13 @@ angular.module('app.services')
 
             return {
                 request: function (config) {
-                    config.headers = config.headers || {};
-                    if (!config.headers.hasOwnProperty('Authorization') && OAuthToken.getAuthorizationHeader()) {
-                        config.headers.Authorization = OAuthToken.getAuthorizationHeader();
+                    if (OAuthToken.getAuthorizationHeader()) {
+                        config.headers = config.headers || {};
+                        if (config.headers.hasOwnProperty('Authorization') && config.headers.Authorization) {
+                            if (config.headers.Authorization != OAuthToken.getAuthorizationHeader()) {
+                                config.headers.Authorization = OAuthToken.getAuthorizationHeader();
+                            }
+                        }
                     }
                     return config;
                 },

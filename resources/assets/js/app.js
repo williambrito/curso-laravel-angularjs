@@ -220,10 +220,12 @@ app.run([
     '$location',
     '$http',
     'OAuth',
+    'OAuthToken',
     function ($rootScope,
               $location,
               $http,
-              OAuth) {
+              OAuth,
+              OAuthToken) {
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
             if (next.$$route.originalPath != '/login') {
@@ -233,15 +235,15 @@ app.run([
             }
         });
 
-        $rootScope.$on('oauth:error', function (event, rejection) {
+        $rootScope.$on('oauth:error', function (event, data) {
 
-            if ('invalid_grant' === rejection.data.error) {
+            if ('invalid_grant' === data.rejection.data.error) {
                 return;
             }
 
-            if ('access_denied' === rejection.data.error) {
-                return OAuth.getRefreshToken().then(function (data) {
-                    $http(data.rejection.config).then(function (response) {
+            if ('access_denied' === data.rejection.data.error) {
+                return OAuth.getRefreshToken().then(function (response) {
+                    return $http(data.rejection.config).then(function (response) {
                         return data.deferred.resolve(response);
                     });
                 });
