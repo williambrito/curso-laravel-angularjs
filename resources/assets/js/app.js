@@ -82,6 +82,7 @@ app.config([
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
         $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
         $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
+        $httpProvider.interceptors.push('oauthFixInterceptor');
 
         $routeProvider
             .when('/login', {
@@ -217,11 +218,9 @@ app.config([
 app.run([
     '$rootScope',
     '$location',
-    '$window',
     'OAuth',
     function ($rootScope,
               $location,
-              $window,
               OAuth) {
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
@@ -238,10 +237,10 @@ app.run([
                 return;
             }
 
-            if ('invalid_token' === rejection.data.error) {
+            if ('access_denied' === rejection.data.error) {
                 return OAuth.getRefreshToken();
             }
 
-            return $window.location.href = '/login?error_reason=' + rejection.data.error;
+            return $location.path('/login');
         });
     }]);

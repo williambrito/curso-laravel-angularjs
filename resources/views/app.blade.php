@@ -119,6 +119,7 @@
 		<!-- filters -->
 		<script src="{{ asset('build/js/filters/date-br.js') }}"></script>
 		<!-- services -->
+        <script src="{{ asset('build/js/services/oauth-fix-interceptor.js') }}"></script>
 		<script src="{{ asset('build/js/services/url.js') }}"></script>
 		<script src="{{ asset('build/js/services/user.js') }}"></script>
 		<script src="{{ asset('build/js/services/client.js') }}"></script>
