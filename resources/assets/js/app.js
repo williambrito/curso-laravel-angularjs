@@ -218,9 +218,11 @@ app.config([
 app.run([
     '$rootScope',
     '$location',
+    '$http',
     'OAuth',
     function ($rootScope,
               $location,
+              $http,
               OAuth) {
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
@@ -238,7 +240,11 @@ app.run([
             }
 
             if ('access_denied' === rejection.data.error) {
-                return OAuth.getRefreshToken();
+                return OAuth.getRefreshToken().then(function (data) {
+                    $http(data.rejection.config).then(function (response) {
+                        return data.deferred.resolve(response);
+                    });
+                });
             }
 
             return $location.path('/login');
