@@ -208,11 +208,22 @@ app.config([
 
 app.run([
     '$rootScope',
+    '$location',
     '$window',
     'OAuth',
     function ($rootScope,
+              $location,
               $window,
               OAuth) {
+
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
+            if (next.$$route.originalPath != '/login') {
+                if (!OAuth.isAuthenticated()) {
+                    $location.path('/login');
+                }
+            }
+        });
+
         $rootScope.$on('oauth:error', function (event, rejection) {
 
             if ('invalid_grant' === rejection.data.error) {
