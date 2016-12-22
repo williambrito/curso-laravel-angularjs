@@ -91,10 +91,17 @@ app.config([
             })
             .when('/logout', {
                 resolve: {
-                    logout: ['$location', 'OAuthToken', function ($location, OAuthToken) {
-                        OAuthToken.removeToken();
-                        return $location.path('/login');
-                    }]
+                    logout: [
+                        '$rootScope',
+                        '$location',
+                        'OAuthToken',
+                        function ($rootScope,
+                                  $location,
+                                  OAuthToken) {
+                            $rootScope.isRefreshToken = false;
+                            OAuthToken.removeToken();
+                            return $location.path('/login');
+                        }]
                 }
             })
             .when('/home', {
@@ -242,13 +249,26 @@ app.run([
             }
 
             if ('access_denied' === data.rejection.data.error) {
-                return OAuth.getRefreshToken().then(function (response) {
+                if ($rootScope.isRefreshToken) {
                     return $http(data.rejection.config).then(function (response) {
                         return data.deferred.resolve(response);
                     });
-                });
+                } else {
+                    if (data.rejection.config.headers.Authorization == OAuthToken.getAuthorizationHeader()) {
+                        $rootScope.isRefreshToken = true;
+                        return OAuth.getRefreshToken().then(function (response) {
+                            $rootScope.isRefreshToken = false;
+                            return $http(data.rejection.config).then(function (response) {
+                                return data.deferred.resolve(response);
+                            });
+                        });
+                    } else {
+                        return $http(data.rejection.config).then(function (response) {
+                            return data.deferred.resolve(response);
+                        });
+                    }
+                }
             }
-
-            return $location.path('/login');
+            return $location.path('/logout');
         });
     }]);
