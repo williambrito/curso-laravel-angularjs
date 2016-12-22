@@ -180,6 +180,15 @@ app.config([
             .when('/project/:id/task/:idTask/delete', {
                 templateUrl: 'build/views/project-task/delete.html',
                 controller: 'projectTaskDeleteController'
+            })
+            /*project-member*/
+            .when('/project/:id/members', {
+                templateUrl: 'build/views/project-member/index.html',
+                controller: 'projectMemberIndexController'
+            })
+            .when('/project/:id/member/:idProjectMember/delete', {
+                templateUrl: 'build/views/project-member/delete.html',
+                controller: 'projectMemberDeleteController'
             });
 
         OAuthProvider.configure({

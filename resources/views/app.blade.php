@@ -111,6 +111,9 @@
 		<script src="{{ asset('build/js/controllers/project-task/create.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-task/edit.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project-task/delete.js') }}"></script>
+		<!-- project member -->
+		<script src="{{ asset('build/js/controllers/project-member/index.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/project-member/delete.js') }}"></script>
 		<!-- directives -->
 		<script src="{{ asset('build/js/directives/project-file-download.js') }}"></script>
 		<!-- filters -->
@@ -123,6 +126,7 @@
 		<script src="{{ asset('build/js/services/project-note.js') }}"></script>
 		<script src="{{ asset('build/js/services/project-file.js') }}"></script>
 		<script src="{{ asset('build/js/services/project-task.js') }}"></script>
+		<script src="{{ asset('build/js/services/project-member.js') }}"></script>
 	@else
 		<script src="{{ elixir('js/all.js') }}"></script>
 	@endif
