@@ -24,6 +24,7 @@
     "angular-bootstrap": "2.3.0",
     "angular-strap": "2.3.10",
     "bootstrap": "3.3.7",
-    "ng-file-upload": "^12.2.13"
+    "ng-file-upload": "^12.2.13",
+    "angular-http-auth": "^1.5.0"
   }
 }
