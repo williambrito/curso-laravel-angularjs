@@ -85,6 +85,7 @@
 		<!-- app -->
 		<script src="{{ asset('build/js/app.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/login.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/login-modal.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/home.js') }}"></script>
 		<!-- client -->
 		<script src="{{ asset('build/js/controllers/client/index.js') }}"></script>
