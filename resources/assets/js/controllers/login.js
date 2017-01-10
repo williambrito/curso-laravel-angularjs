@@ -1,15 +1,22 @@
 angular.module('app.controllers')
     .controller('loginController', [
+        '$rootScope',
         '$scope',
         '$location',
         'OAuth',
+        'OAuthToken',
         '$cookies',
         'userService',
-        function ($scope,
+        function ($rootScope,
+                  $scope,
                   $location,
                   OAuth,
+                  OAuthToken,
                   $cookies,
                   userService) {
+
+            $rootScope.isRefreshToken = false;
+            OAuthToken.removeToken();
 
             $scope.user = {
                 username: '',
@@ -26,9 +33,9 @@ angular.module('app.controllers')
                     OAuth.getAccessToken($scope.user).then(function () {
                         userService.authenticated({}, {}, function (data) {
                             $cookies.putObject('user', data);
-                            $location.path('home');
+                            $location.path('/home');
                         }, function () {
-
+                            $location.path('/logout');
                         });
                     }, function (data) {
                         $scope.error.erro = true;

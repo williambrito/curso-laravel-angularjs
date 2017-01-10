@@ -84,6 +84,8 @@ app.config([
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
         $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
         $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
+        $httpProvider.interceptors.slice(0, 1);
+        $httpProvider.interceptors.slice(0, 1);
         $httpProvider.interceptors.push('oauthFixInterceptor');
 
         $routeProvider
@@ -94,14 +96,8 @@ app.config([
             .when('/logout', {
                 resolve: {
                     logout: [
-                        '$rootScope',
                         '$location',
-                        'OAuthToken',
-                        function ($rootScope,
-                                  $location,
-                                  OAuthToken) {
-                            $rootScope.isRefreshToken = false;
-                            OAuthToken.removeToken();
+                        function ($location) {
                             return $location.path('/login');
                         }]
                 }
@@ -230,11 +226,17 @@ app.run([
     '$http',
     'OAuth',
     'OAuthToken',
+    'authService',
+    'httpBuffer',
+    '$uibModal',
     function ($rootScope,
               $location,
               $http,
               OAuth,
-              OAuthToken) {
+              OAuthToken,
+              authService,
+              httpBuffer,
+              $uibModal) {
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
             if (next.$$route.originalPath != '/login') {
@@ -251,26 +253,24 @@ app.run([
             }
 
             if ('access_denied' === data.rejection.data.error) {
-                if ($rootScope.isRefreshToken) {
-                    return $http(data.rejection.config).then(function (response) {
-                        return data.deferred.resolve(response);
+                httpBuffer.append(data.rejection.config, data.deferred);
+                if (!$rootScope.isRefreshToken) {
+                    $rootScope.isRefreshToken = true;
+                    OAuth.getRefreshToken().then(function () {
+                        $rootScope.isRefreshToken = false;
+                        authService.loginConfirmed();
                     });
-                } else {
-                    if (data.rejection.config.headers.Authorization == OAuthToken.getAuthorizationHeader()) {
-                        $rootScope.isRefreshToken = true;
-                        return OAuth.getRefreshToken().then(function (response) {
-                            $rootScope.isRefreshToken = false;
-                            return $http(data.rejection.config).then(function (response) {
-                                return data.deferred.resolve(response);
-                            });
-                        });
-                    } else {
-                        return $http(data.rejection.config).then(function (response) {
-                            return data.deferred.resolve(response);
-                        });
-                    }
                 }
+                return;
             }
-            return $location.path('/logout');
+
+            if (!$rootScope.loginModalOpened) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'build/views/templates/login-modal.html',
+                    controller: 'loginModalController'
+                });
+                $rootScope.loginModalOpened = true;
+            }
+            return;
         });
     }]);

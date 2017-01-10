@@ -1,19 +1,21 @@
 angular.module('app.controllers')
     .controller('loginModalController', [
+        '$rootScope',
         '$scope',
         '$location',
         'OAuth',
         '$cookies',
         'userService',
         'authService',
-        '$modalInstance',
-        function ($scope,
+        '$uibModalInstance',
+        function ($rootScope,
+                  $scope,
                   $location,
                   OAuth,
                   $cookies,
                   userService,
                   authService,
-                  $modalInstance) {
+                  $uibModalInstance) {
 
             $scope.user = {
                 username: '',
@@ -25,12 +27,16 @@ angular.module('app.controllers')
                 message: ''
             };
 
-            $scope.on('event:auth-loginConfirmed', function () {
-                $modalInstance.close();
+            $scope.$on('event:auth-loginConfirmed', function () {
+                $uibModalInstance.close();
+                $rootScope.isRefreshToken = false;
+                $rootScope.loginModalOpened = false;
             });
 
-            $scope.on('$routeChangeStart', function () {
-                $modalInstance.dismiss('cancel');
+            $scope.$on('$routeChangeStart', function () {
+                $uibModalInstance.dismiss('cancel');
+                $rootScope.isRefreshToken = false;
+                $rootScope.loginModalOpened = false;
             });
 
             $scope.login = function () {

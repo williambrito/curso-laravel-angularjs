@@ -118,6 +118,7 @@
 		<script src="{{ asset('build/js/controllers/project-member/delete.js') }}"></script>
 		<!-- directives -->
 		<script src="{{ asset('build/js/directives/project-file-download.js') }}"></script>
+		<script src="{{ asset('build/js/directives/form-login.js') }}"></script>
 		<!-- filters -->
 		<script src="{{ asset('build/js/filters/date-br.js') }}"></script>
 		<!-- services -->
