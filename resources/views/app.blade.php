@@ -52,6 +52,7 @@
 		<script src="{{ asset('build/js/controllers/login.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/login-modal.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/home.js') }}"></script>
+		<script src="{{ asset('build/js/controllers/menu.js') }}"></script>
 		<!-- client -->
 		<script src="{{ asset('build/js/controllers/client/index.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/client/create.js') }}"></script>

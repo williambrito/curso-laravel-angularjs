@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" bs-navbar>
+<nav class="navbar navbar-default" bs-navbar ng-controller="menuController">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button"
@@ -16,11 +16,13 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
                 <li data-match-route="/home"><a ng-href="#/home">home</a></li>
+                <li data-match-route="/projects"><a ng-href="#/projects">projects</a></li>
+                <li data-match-route="/clients"><a ng-href="#/clients">clients</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" uib-dropdown>
-                    <a ng-href="#/home"
+                    <a ng-href="#"
                        class="dropdown-toggle"
                        data-toggle="dropdown"
                        role="button"
