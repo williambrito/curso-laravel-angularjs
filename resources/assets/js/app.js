@@ -8,6 +8,7 @@ var app = angular.module('app', [
     'ui.bootstrap.modal',
     'ngFileUpload',
     'http-auth-interceptor',
+    'angularUtils.directives.dirPagination',
     'app.controllers',
     'app.directives',
     'app.filters',
