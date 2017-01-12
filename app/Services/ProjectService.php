@@ -37,9 +37,9 @@ class ProjectService
         $this->validator = $validator;
     }
 
-    public function getAll()
+    public function getAll($limit = null)
     {
-        return $this->repository->skipPresenter(false)->findOwner(Authorizer::getResourceOwnerId());
+        return $this->repository->skipPresenter(false)->findOwner(Authorizer::getResourceOwnerId(), $limit);
     }
 
     public function getById($id)

@@ -23,9 +23,9 @@ class ProjectController extends Controller
         $this->middleware('check-project-permission', ['except' => ['index', 'store', 'update', 'destroy']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->service->getAll();
+        return $this->service->getAll($request->get('limit'));
     }
 
     public function store(Request $request)
