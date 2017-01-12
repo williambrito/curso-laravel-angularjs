@@ -39,7 +39,7 @@ class ProjectService
 
     public function getAll()
     {
-        return $this->repository->skipPresenter(false)->findWithOwnerAndMember(Authorizer::getResourceOwnerId());
+        return $this->repository->skipPresenter(false)->findOwner(Authorizer::getResourceOwnerId());
     }
 
     public function getById($id)
