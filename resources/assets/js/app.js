@@ -107,41 +107,50 @@ app.config([
             })
             .when('/home', {
                 templateUrl: 'build/views/home.html',
-                controller: 'homeController'
+                controller: 'homeController',
+                title: 'Home'
             })
             /*clients*/
             .when('/clients', {
                 templateUrl: 'build/views/client/index.html',
-                controller: 'clientIndexController'
+                controller: 'clientIndexController',
+                title: 'Clients'
             })
             .when('/client/create', {
                 templateUrl: 'build/views/client/create.html',
-                controller: 'clientCreateController'
+                controller: 'clientCreateController',
+                title: 'Clients'
             })
             .when('/client/:id/edit', {
                 templateUrl: 'build/views/client/edit.html',
-                controller: 'clientEditController'
+                controller: 'clientEditController',
+                title: 'Clients'
             })
             .when('/client/:id/delete', {
                 templateUrl: 'build/views/client/delete.html',
-                controller: 'clientDeleteController'
+                controller: 'clientDeleteController',
+                title: 'Clients'
             })
             /*projects*/
             .when('/projects', {
                 templateUrl: 'build/views/project/index.html',
-                controller: 'projectIndexController'
+                controller: 'projectIndexController',
+                title: 'Projects'
             })
             .when('/project/create', {
                 templateUrl: 'build/views/project/create.html',
-                controller: 'projectCreateController'
+                controller: 'projectCreateController',
+                title: 'Projects'
             })
             .when('/project/:id/edit', {
                 templateUrl: 'build/views/project/edit.html',
-                controller: 'projectEditController'
+                controller: 'projectEditController',
+                title: 'Projects'
             })
             .when('/project/:id/delete', {
                 templateUrl: 'build/views/project/delete.html',
-                controller: 'projectDeleteController'
+                controller: 'projectDeleteController',
+                title: 'Projects'
             })
             /*project-notes*/
             .when('/project/:id/notes', {
@@ -247,6 +256,10 @@ app.run([
                     $location.path('/login');
                 }
             }
+        });
+
+        $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+            $rootScope.pageTitle = current.$$route.title;
         });
 
         $rootScope.$on('oauth:error', function (event, data) {
