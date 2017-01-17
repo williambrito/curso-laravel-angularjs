@@ -9,15 +9,11 @@ angular.module('app.controllers')
                   $location,
                   $routeParams) {
 
-            $scope.client = clientService.get({id: $routeParams.id});
-
-            $scope.save = function () {
-                if ($scope.form.$valid) {
-                    clientService.update({id: $scope.client.id}, $scope.client, function () {
-                        $location.path('/clients');
-                    }, function () {
-
-                    });
-                }
-            };
+            clientService.query({
+                orderBy: 'created_at',
+                sortedBy: 'desc',
+                limit: 8
+            }, function (response) {
+                $scope.clients = response.data;
+            });
         }]);

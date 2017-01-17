@@ -3,6 +3,9 @@ angular.module('app.services')
         return $resource('/client/:id', {id: '@id'}, {
             update: {
                 method: 'PUT'
+            },
+            query: {
+                isArray: false
             }
         });
     }]);
