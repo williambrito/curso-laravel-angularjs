@@ -111,6 +111,11 @@ app.config([
                 title: 'Home'
             })
             /*clients*/
+            .when('/clients/dashboard', {
+                templateUrl: 'build/views/client/dashboard.html',
+                controller: 'clientDashboardController',
+                title: 'Clients'
+            })
             .when('/clients', {
                 templateUrl: 'build/views/client/index.html',
                 controller: 'clientIndexController',
