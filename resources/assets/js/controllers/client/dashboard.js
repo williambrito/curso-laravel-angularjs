@@ -9,11 +9,18 @@ angular.module('app.controllers')
                   $location,
                   $routeParams) {
 
+            $scope.client = {};
+
             clientService.query({
                 orderBy: 'created_at',
                 sortedBy: 'desc',
                 limit: 8
             }, function (response) {
                 $scope.clients = response.data;
+                $scope.client = $scope.clients[0];
             });
+
+            $scope.showClient = function (client) {
+                $scope.client = client;
+            };
         }]);
