@@ -49,29 +49,29 @@
                             </h4>
                         </div>
                         <div class="boxed-manager-main-body">
-                            <div class="btn-group" role="tablist">
-                                <a href="#detalhes"
+                            <div class="btn-group" role="tablist" tab-project>
+                                <a href="javascript:void(0)"
                                    aria-controls="detalhes"
                                    role="tab"
                                    data-toggle="tab"
-                                   class="btn btn-default active">
+                                   class="btn btn-default">
                                     Detalhes
                                 </a>
-                                <a href="#tarefas"
+                                <a href="javascript:void(0)"
                                    aria-controls="tarefas"
                                    role="tab"
                                    data-toggle="tab"
                                    class="btn btn-default">
                                     Tarefas
                                 </a>
-                                <a href="#arquivos"
+                                <a href="javascript:void(0)"
                                    aria-controls="arquivos"
                                    role="tab"
                                    data-toggle="tab"
                                    class="btn btn-default">
                                     Arquivos
                                 </a>
-                                <a href="#anotacoes"
+                                <a href="javascript:void(0)"
                                    aria-controls="anotacoes"
                                    role="tab"
                                    data-toggle="tab"
@@ -84,19 +84,8 @@
                             <br/>
 
                             <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="detalhes">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        Debitis eius et illo quaerat quasi sit voluptatibus.
-                                        A autem debitis doloremque exercitationem mollitia neque
-                                        quasi quidem ratione vitae voluptate? Architecto at odit
-                                        quia? Aperiam nihil omnis pariatur quae quia recusandae
-                                        rem? Aperiam dolore, exercitationem fuga illo ipsa nemo
-                                        repudiandae similique soluta!</p>
-
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        Accusantium libero magni maxime perspiciatis provident
-                                        qui rem similique sit ut vero! Beatae deleniti eum eveniet,
-                                        iure magnam necessitatibus possimus sit tempora.</p>
+                                <div role="tabpanel" class="tab-pane" id="detalhes">
+                                    <p>{{project.description}}</p>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="tarefas">
                                     <div class="task-list">
