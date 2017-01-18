@@ -137,6 +137,11 @@ app.config([
                 title: 'Clients'
             })
             /*projects*/
+            .when('/projects/dashboard', {
+                templateUrl: 'build/views/project/dashboard.html',
+                controller: 'projectDashboardController',
+                title: 'Projects'
+            })
             .when('/projects', {
                 templateUrl: 'build/views/project/index.html',
                 controller: 'projectIndexController',

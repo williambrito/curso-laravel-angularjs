@@ -60,6 +60,7 @@
 		<script src="{{ asset('build/js/controllers/client/edit.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/client/delete.js') }}"></script>
 		<!-- project -->
+		<script src="{{ asset('build/js/controllers/project/dashboard.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project/index.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project/create.js') }}"></script>
 		<script src="{{ asset('build/js/controllers/project/edit.js') }}"></script>
